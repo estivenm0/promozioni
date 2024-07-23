@@ -1,5 +1,6 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import './bootstrap';
 import 'flowbite';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Promozioni';
