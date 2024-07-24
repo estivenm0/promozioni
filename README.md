@@ -178,7 +178,7 @@ La arquitectura del sistema está basada en un enfoque de aplicación web monol�
 ## 5. Diseño de la Base de Datos
 
 ### 5.1 Modelo Entidad-Relación
-![DB](https://raw.githubusercontent.com/stivenm0/promozioni/main/public/docs/DB.jpg?token=GHSAT0AAAAAACRYUQ4SZJV4SCZCENVP3EVEZVBSL4Q)
+![DB](https://github.com/stivenm0/promozioni/blob/main/public/docs/DB.jpg?raw=true)
 
 ### 5.2 Descripción de Tablas
 -   **timestamps**: Fecha de registro en la aplicación todas las tablas tendrán estos campos excepto categorías, tipo de negocios y la tabla pivot. (TIMESTAMP, Default CURRENT_TIMESTAMP) 
@@ -248,4 +248,4 @@ La arquitectura del sistema está basada en un enfoque de aplicación web monol�
 Descripción detallada de cada pantalla en la aplicación.
 
 ### 6.2 Prototipos de Interfaz
-![interfaz](https://raw.githubusercontent.com/stivenm0/promozioni/main/public/docs/Wiframe.webp?token=GHSAT0AAAAAACRYUQ4SEYQNE5FM7IFHPRIUZVBSMWA)
+![interfaz](https://github.com/stivenm0/promozioni/raw/main/public/docs/Wiframe.webp)
