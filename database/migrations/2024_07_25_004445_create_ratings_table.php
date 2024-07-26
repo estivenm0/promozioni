@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('businesses', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name')->unique();
-            $table->text('description');
-            $table->string('image')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->unsignedBigInteger('branch_id');
+            $table->string('content')->nullable();
+            $table->tinyInteger('value');
             $table->timestamps();
 
+            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unique(['user_id', 'branch_id']);
 
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('businesses');
+        Schema::dropIfExists('ratings');
     }
 };

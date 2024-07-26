@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('types', function (Blueprint $table) {
             $table->tinyIncrements('id');
             $table->string('name', 50)->unique();
-            $table->timestamps();
+
+            $table->index('id');
         });
     }
 
