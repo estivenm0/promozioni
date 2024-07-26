@@ -212,6 +212,7 @@ La arquitectura del sistema está basada en un enfoque de aplicación web monol�
 #### Promociones
 - **id (PK)**: Identificador único de la promoción. (INT)
 - **branch_id (FK)**: Identificador de la sucursal a la que pertenece la promoción. (INT)
+- **cateogy_id (FK)**: Identificador de la categoría a la que pertenece la promoción. (INT)
 - **title**: Título de la promoción. (VARCHAR(50))
 - **slug**: Identificador de la promoción. (VARCHAR(255), Unique)
 - **image**: Imagen de la promoción. (VARCHAR(255))
