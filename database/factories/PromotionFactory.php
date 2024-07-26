@@ -24,7 +24,7 @@ class PromotionFactory extends Factory
             'title' => fake()->sentence(2),
             'slug' => fake()->sentence(4),
             'description' => fake()->paragraph(),
-            'image' => 'hfd',
+            'image' => 'promotion.jpg',
             'longitude' => fake()->longitude(),
             'latitude' => fake()->latitude(),
             'start_date' => now(),

@@ -21,7 +21,7 @@ class BusinessFactory extends Factory
             'user_id' => User::factory(),
             'name' => fake()->unique()->company(),
             'description' => fake()->paragraph(),
-            'image' => 'hg',
+            'image' => 'business.jpg',
             'phone' => fake()->phoneNumber(),
             'email' => fake()->email()
         ];

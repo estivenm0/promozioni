@@ -43,6 +43,20 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'promotions' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/promotions'),
+            'url' => env('APP_URL').'/storage/promotions',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'business' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/business'),
+            'url' => env('APP_URL').'/storage/business',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',
