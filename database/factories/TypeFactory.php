@@ -20,4 +20,7 @@ class TypeFactory extends Factory
             'name' => fake()->unique()->word()
         ];
     }
+
+    
+    
 }

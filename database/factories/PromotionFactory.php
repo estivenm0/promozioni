@@ -21,7 +21,7 @@ class PromotionFactory extends Factory
         return [
             'branch_id' => Branch::factory(),
             'category_id' =>  $this->getCategory(),
-            'title' => fake()->sentence(4),
+            'title' => fake()->sentence(2),
             'slug' => fake()->sentence(4),
             'description' => fake()->paragraph(),
             'image' => 'hfd',

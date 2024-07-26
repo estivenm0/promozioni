@@ -10,10 +10,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
       'name'  
     ];
-
+    
     public function promotions() : HasMany
     {
         return $this->hasMany(Promotion::class);
