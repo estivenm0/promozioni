@@ -1,6 +1,6 @@
 # Promozioni
 ## Tabla de Contenidos
-
+---
 *   1. [Introducción](#1-introducción)
     - 1.1 [Definiciones, Acrónimos y Abreviaturas](#11-definiciones-acrónimos-y-abreviaturas)  
     - 1.2 [Referencias](#12-referencias)  
