@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('business_types', function (Blueprint $table) {
             $table->unsignedBigInteger('business_id');
             $table->unsignedTinyInteger('type_id');
-            $table->timestamps();
 
-
+            $table->foreign('business_id')->references('id')->on('businesses');
+            $table->foreign('type_id')->references('id')->on('types');
         });
     }
 

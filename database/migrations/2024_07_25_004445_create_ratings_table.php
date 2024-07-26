@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('promotions', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('branch_id');
+            $table->string('content')->nullable();
+            $table->tinyInteger('value');
+            $table->timestamps();
+
             $table->foreign('branch_id')->references('id')->on('branches');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 
@@ -22,8 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('promotions', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('ratings');
     }
 };

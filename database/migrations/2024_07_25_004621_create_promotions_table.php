@@ -25,7 +25,8 @@ return new class extends Migration
             $table->date('end_date');
             $table->timestamps();
 
-
+            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
