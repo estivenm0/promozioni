@@ -21,16 +21,19 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CategorySeeder::class,
-            TypeSeeder::class
+            TypeSeeder::class,
+            MoonshineSeeder::class
         ]);
 
         // User::factory(10)->create();
-        
-        Branch::factory(30)->
-        has(Promotion::factory()->count(10))
-        ->has(Rating::factory()->count(5))
-        ->for(Business::factory())
-        ->create();
+
+        for ($i=0; $i < 10; $i++) { 
+            Branch::factory(5)->
+            has(Promotion::factory()->count(10))
+            ->has(Rating::factory()->count(5))
+            ->for(Business::factory())
+            ->create();
+        }
 
         BusinessType::factory(100)->create();
         
@@ -40,8 +43,5 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-       
-
     }
 }
