@@ -22,6 +22,7 @@ use MoonShine\Contracts\Resources\ResourceContract;
 use MoonShine\Menu\MenuElement;
 use MoonShine\Pages\Page;
 use Closure;
+use Illuminate\Http\Request;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 {
@@ -56,7 +57,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     static fn () => __('moonshine::ui.resource.role_title'),
                     new MoonShineUserRoleResource()
                 )->icon('heroicons.key'),
-            ])->icon('heroicons.identification'),
+            ])->icon('heroicons.identification')
+            ->canSee(function(Request $request) {
+                return $request->user('moonshine')?->id === 1;
+            }) ,
 
             MenuItem::make('Usuarios', new UserResource())
                 ->icon('heroicons.user-group'),

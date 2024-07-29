@@ -28,7 +28,7 @@ class PromotionFactory extends Factory
             'longitude' => fake()->longitude(),
             'latitude' => fake()->latitude(),
             'start_date' => now(),
-            'end_date' => now(),
+            'end_date' => now()->addMonth(),
         ];
     }
 
