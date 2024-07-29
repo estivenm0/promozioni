@@ -28,6 +28,12 @@ class BranchResource extends ModelResource
 
     protected bool $editInModal = true;
 
+    protected string $column = 'name';
+
+    protected string $sortColumn = 'status';
+
+    protected string $sortDirection = 'ASC';
+
     /**
      * @return list<MoonShineComponent|Field>
      */
@@ -36,17 +42,28 @@ class BranchResource extends ModelResource
         return [
             Block::make([
                 ID::make()->sortable(),
-                BelongsTo::make('Negocio', 'Business', resource: new BusinessResource())->hideOnIndex(),
-                Text::make('Nombre', 'name'),
+                BelongsTo::make('Negocio', 'Business', resource: new BusinessResource())
+                    ->hideOnIndex()
+                    ->showOnExport(),
+                Text::make('Nombre', 'name')
+                    ->showOnExport(),
                 Text::make('Estado', 'status')
-                ->badge(fn($item)=> match($item){
-                    'pendiente' => 'blue',
-                    'aprobado' => 'green',
-                    'rechazado' => 'red',
-                }),
-                Text::make('Descripción', 'status_description')->hideOnIndex(),
-                Text::make('Dirección', 'address')->hideOnIndex(),              
-                Date::make('Creada en', 'created_at')->format('d/m/Y'),
+                    ->showOnExport()
+                    ->badge(fn ($item) => match ($item) {
+                        'pendiente' => 'blue',
+                        'aprobado' => 'green',
+                        'rechazado' => 'red',
+                    })->sortable()
+                    ->showOnExport(),
+                Text::make('Descripción', 'status_description')
+                    ->hideOnIndex()
+                    ->showOnExport(),
+                Text::make('Dirección', 'address')
+                    ->hideOnIndex()
+                    ->showOnExport(),
+                Date::make('Creada en', 'created_at')->format('d/m/Y')
+                    ->sortable()
+                    ->showOnExport(),
             ]),
         ];
     }
@@ -55,18 +72,28 @@ class BranchResource extends ModelResource
     {
         return [
             Select::make('Estado', 'status')
-            ->options([
-                'Pendiente' => 'pendiente',
-                'Aprobado' => 'aprobado',
-                'rechazado' => 'rechazado'
-            ]),
+                ->options([
+                    'pendiente' => 'pendiente',
+                    'aprobado' => 'aprobado',
+                    'rechazado' => 'rechazado'
+                ]),
             Text::make('Descripción', 'status_description')
-        ];    
+        ];
+    }
+
+    public function search(): array
+    {
+        return ['id', 'name'];
     }
 
     public function getActiveActions(): array
     {
-        return ['view','update', 'delete', 'massDelete'];
+        return ['view', 'update', 'delete', 'massDelete'];
+    }
+
+    public function redirectAfterSave(): string
+    {
+        return $this->url();
     }
 
     /**
@@ -77,6 +104,9 @@ class BranchResource extends ModelResource
      */
     public function rules(Model $item): array
     {
-        return [];
+        return [
+            'status' => 'required|in:pendiente,aprobado,rechazado',
+            'status_description' => 'nullable|max:255'
+        ];
     }
 }

@@ -35,9 +35,12 @@ class UserResource extends ModelResource
         return [
             Block::make([
                 ID::make()->sortable(),
-                Text::make('Nombre', 'name'),
-                Email::make('Correo', 'email'),
+                Text::make('Nombre', 'name')
+                ->showOnExport(),
+                Email::make('Correo', 'email')
+                ->showOnExport(),
                 Date::make('Creado en', 'created_at')
+                ->showOnExport()
             ]),
         ];
     }

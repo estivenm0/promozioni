@@ -21,6 +21,8 @@ class CategoryResource extends ModelResource
 {
     protected string $model = Category::class;
 
+    protected string $column = 'name';
+
     protected string $title = 'Categorías';
 
     protected bool $createInModal = true;
@@ -36,6 +38,7 @@ class CategoryResource extends ModelResource
             Block::make([
                 ID::make()->sortable(),
                 Text::make('Nombre', 'name')
+                ->showOnExport()
             ]),
         ];
     }
@@ -43,6 +46,17 @@ class CategoryResource extends ModelResource
     public function search(): array
     {
         return ['id', 'name'];
+    }
+
+    public function redirectAfterSave(): string
+    {
+        return $this->url();
+    }
+
+
+    public function getActiveActions(): array
+    {
+        return ['create','update', 'delete'];
     }
 
     /**

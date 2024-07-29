@@ -31,7 +31,7 @@ class BusinessResource extends ModelResource
 
     protected string $column = 'name';
 
-    protected array $with = ['user','branches'];
+    protected array $with = ['user'];
 
     /**
      * @return list<MoonShineComponent|Field>
@@ -42,17 +42,26 @@ class BusinessResource extends ModelResource
             Block::make([
                 ID::make()->sortable(),
                 Image::make('Image', 'image')
-                ->disk('businesses')
-                ->hideOnIndex(),
-                BelongsTo::make('Dueño', 'user', resource: new UserResource()),
-                Text::make('Nombre', 'name'),
-                Text::make('Descripción', 'description')->hideOnIndex(),
-                Email::make('Correo', 'email')->hideOnIndex(),
-                Phone::make('Teléfono', 'phone')->hideOnIndex(),
-                HasMany::make('Sucursales', 'branches', resource:  new BranchResource() )->onlyLink(),
-                // BelongsToMany::make('Tipos', 'types' ,resource: new TypeResource())
-                // ->fields([ Text::make('name') ])
-                // ->hideOnIndex()
+                    ->disk('businesses')
+                    ->hideOnIndex()
+                    ->showOnExport(),
+                BelongsTo::make('Dueño', 'user', resource: new UserResource())
+                    ->showOnExport(),
+                Text::make('Nombre', 'name')
+                    ->showOnExport(),
+                Text::make('Descripción', 'description')->hideOnIndex()
+                    ->showOnExport(),
+                Email::make('Correo', 'email')
+                    ->hideOnIndex()
+                    ->showOnExport(),
+                Phone::make('Teléfono', 'phone')
+                    ->hideOnIndex()
+                    ->showOnExport(),
+                HasMany::make('Sucursales', 'branches', resource: new BranchResource())
+                    ->onlyLink(),
+                BelongsToMany::make('Tipos', 'types', resource: new TypeResource())
+                    ->hideOnIndex()
+                    ->showOnExport()
             ]),
         ];
     }

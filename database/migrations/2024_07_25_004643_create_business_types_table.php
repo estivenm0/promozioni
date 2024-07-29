@@ -15,8 +15,13 @@ return new class extends Migration
             $table->unsignedBigInteger('business_id');
             $table->unsignedTinyInteger('type_id');
 
-            $table->foreign('business_id')->references('id')->on('businesses');
-            $table->foreign('type_id')->references('id')->on('types');
+            $table->foreign('business_id')
+            ->references('id')->on('businesses')
+            ->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->foreign('type_id')
+            ->references('id')->on('types')
+            ->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

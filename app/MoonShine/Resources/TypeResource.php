@@ -39,9 +39,23 @@ class TypeResource extends ModelResource
             Block::make([
                 ID::make()->sortable(),
                 Text::make('Nombre', 'name')
+                ->showOnExport()
             ]),
         ];
     }
+
+
+    public function redirectAfterSave(): string
+    {
+        return $this->url();
+    }
+
+
+    public function getActiveActions(): array
+    {
+        return ['create','update', 'delete'];
+    }
+
 
     /**
      * @param Type $item

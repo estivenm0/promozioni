@@ -28,20 +28,25 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         for ($i=0; $i < 10; $i++) { 
-            Branch::factory(5)->
-            has(Promotion::factory()->count(10))
-            ->has(Rating::factory()->count(5))
-            ->for(Business::factory())
+        Business::factory(1)
+            ->for(User::factory())
+            ->has(
+                Branch::factory()->count(4)
+                    ->afterCreating(function (Branch $branch) {
+                        Promotion::factory(1)
+                            ->for($branch)
+                            ->create();
+
+                        Rating::factory(2)
+                            ->for($branch)
+                            ->create();
+                    })
+            )
             ->create();
         }
 
-        BusinessType::factory(100)->create();
-        
-    
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        BusinessType::factory(50)->create();
+
     }
 }

@@ -22,7 +22,9 @@ return new class extends Migration
             $table->double('longitude');
             $table->timestamps();
 
-            $table->foreign('business_id')->references('id')->on('businesses');
+            $table->foreign('business_id')
+            ->references('id')->on('businesses')
+            ->cascadeOnDelete()->cascadeOnUpdate();
 
         });
     }
