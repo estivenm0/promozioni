@@ -21,27 +21,32 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CategorySeeder::class,
-            TypeSeeder::class
+            TypeSeeder::class,
+            MoonshineSeeder::class
         ]);
 
         // User::factory(10)->create();
-        
-        Branch::factory(30)->
-        has(Promotion::factory()->count(10))
-        ->has(Rating::factory()->count(5))
-        ->for(Business::factory())
-        ->create();
 
-        BusinessType::factory(100)->create();
-        
-    
+        for ($i=0; $i < 10; $i++) { 
+        Business::factory(1)
+            ->for(User::factory())
+            ->has(
+                Branch::factory()->count(4)
+                    ->afterCreating(function (Branch $branch) {
+                        Promotion::factory(1)
+                            ->for($branch)
+                            ->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+                        Rating::factory(2)
+                            ->for($branch)
+                            ->create();
+                    })
+            )
+            ->create();
+        }
 
-       
+
+        BusinessType::factory(50)->create();
 
     }
 }

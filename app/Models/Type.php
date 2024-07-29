@@ -16,7 +16,7 @@ class Type extends Model
       'name'  
     ];
 
-    public function types(): BelongsToMany
+    public function businesses(): BelongsToMany
     {
         return $this->belongsToMany(Business::class,'business_types' );
     }

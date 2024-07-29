@@ -50,10 +50,10 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-        'business' => [
+        'businesses' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/business'),
-            'url' => env('APP_URL').'/storage/business',
+            'root' => storage_path('app/public/businesses'),
+            'url' => env('APP_URL').'/storage/businesses',
             'visibility' => 'public',
             'throw' => false,
         ],
