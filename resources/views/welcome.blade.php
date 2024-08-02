@@ -18,12 +18,6 @@
 
     @include('layouts.navigation')
 
-
-
-
-
-
-
     <section class="flex items-center justify-center p-5 ">
         <div class="grid items-center grid-cols-1 gap-10 md:grid-cols-2 md:px-10">
             <div class="space-y-4 ">
@@ -37,7 +31,7 @@
                     ofertas especiales, ya sean descuentos en productos agrícolas, promociones en menús de restaurantes,
                     o rebajas en tiendas minoristas.</p>
                 <div class="flex justify-center space-x-5">
-                    <a href="/dashboard"
+                    <a href="{{route('map.index')}}"
                         class="flex items-center justify-center w-full gap-1 p-5 py-3 font-semibold text-white rounded-2xl bg-rose-500 hover:bg-rose-700">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
