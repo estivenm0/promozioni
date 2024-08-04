@@ -27,11 +27,11 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(10)->create();
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 15; $i++) { 
         Business::factory(1)
             ->for(User::factory())
             ->has(
-                Branch::factory()->count(4)
+                Branch::factory()->count(10)
                     ->afterCreating(function (Branch $branch) {
                         Promotion::factory(1)
                             ->for($branch)

@@ -25,8 +25,8 @@ class PromotionFactory extends Factory
             'slug' => fake()->sentence(4),
             'description' => fake()->paragraph(),
             'image' => 'promotion.jpg',
-            'longitude' => fake()->longitude(-79.038, -66.876),
-            'latitude' => fake()->latitude(-4.227, 12.517),
+            'longitude' => fake()->longitude(-74.2234, -74.0137),
+            'latitude' => fake()->latitude(4.5832, 4.8353),
             'start_date' => now(),
             'end_date' => now()->addMonth(),
         ];

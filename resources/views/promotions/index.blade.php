@@ -1,81 +1,116 @@
 <x-app-layout>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <x-slot name='head'>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    </x-slot>
 
-    <div class="mx-auto my-10 max-w-7xl sm:px-6 lg:px-8">
-        <div x-data="map()"
-            class="flex flex-wrap overflow-hidden bg-white border shadow-sm border-emerald-500 sm:rounded-lg">
-            <div class="w-full p-6 text-gray-900 md:w-1/2 h-96" id="map"></div>
+    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-data="map()">
+        @include('promotions.partials.categories')
+        
+        <div class="flex flex-wrap overflow-hidden bg-white border shadow-sm border-emerald-500 sm:rounded-lg">
+            <div class="z-0 w-full p-6 text-gray-900 md:w-1/2 h-96" id="map"></div>
 
             @include('promotions.partials.promo')
         </div>
+        
     </div>
 
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         function map(){
             return {
-                promo: false,
-                lat: 4.5981,
-                lon: -74.0758,
-                promotions: {{ Illuminate\Support\Js::from($promotions->items()) }},
-                init(){
-                    axios.get('{{route('map.promotions')}}').then(res => console.log(res.data))
-
-                    if ("geolocation" in navigator) {
-                        navigator.geolocation.getCurrentPosition((position) => {
-                        this.lat = position.coords.latitude;
-                        this.lon = position.coords.longitude;
-                        this.showMap();
-                        }, (error) => {
-                            console.error(`Error obteniendo la ubicación: ${error.message}`);
-                            this.showMap();
-
-                        });
-                    } else {
-                        alert("Geolocation no es soportado por este navegador.");
-                    }
+                map: '',
+                promo: false, 
+                promotions: [],
+                markers: [],
+                filters: {
+                    category: 0,
+                    lat: 4.5981,
+                    lon: -74.0758,
+                    km: 6,
                 },
-                
-                showMap(){
-                    const map = L.map('map').setView([this.lat, this.lon], 17);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors'
-                    }).addTo(map);
+                getPromotions(){
+                     axios.get('{{route('map.promotions')}}', {params: {
+                        ...this.filters
+                     }}).then(res => {
+                        let newsP  = res.data.promotions.filter((item) =>
+                            this.promotions.findIndex((t) => t.id === item.id) === -1
+                        );
+
+                        this.promotions.push(...newsP)
+
+                        this.$dispatch('toast', {
+                            text: newsP.length > 0 ? `Se encontraron ${newsP.length}`: 'No se encontraron nuevos'
+                        }
+                        )
+                        
+                        if(newsP.length > 0) this.showPromotions(newsP)                            
+                    })
+                },
+
+                showMap(){
+                    const {lat, lon} = this.filters
                     
-                    const user = L.marker([this.lat, this.lon], {  autopan: true, draggable: true})
-                    .addTo(map)
+                    this.map = L.map('map', { worldCopyJump: true, zoomAnimation:true, minZoom: 10, maxZoom: 18 })
+                    .setView([lat, lon], 14);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+                    { attribution: '© OpenStreetMap contributors' })
+                    .addTo(this.map);
+
+                    L.marker([lat, lon], { draggable: true })
                     .bindPopup('Tú')
-                    .openPopup();
-                    
-                    user.on('dragend', function(e) {
-                        const newLat = e.target.getLatLng().lat;
-                        const newLon = e.target.getLatLng().lng;
-                        console.log(`Nueva Latitud: ${newLat}, Nueva Longitud: ${newLon}`);
-                        user.getPopup().setContent(`Nueva ubicación: ${newLat.toFixed(5)}, ${newLon.toFixed(5)}`).openOn(map);
+                    .openPopup()
+                    .addTo(this.map)
+                    .on('dragend', (e)=> {
+                        this.filters.lat = e.target.getLatLng().lat;
+                        this.filters.lon = e.target.getLatLng().lng
                     });
 
-                    var myIcon = L.icon({
+                    this.markers = L.featureGroup().addTo(this.map);
+                },
+
+                showPromotions(promos){
+                    let myIcon = L.icon({
                             iconUrl: "{{asset('/iconP.png')}}",
                             iconSize: [30, 30],
                         });
+                        
+                        promos.forEach(promo => {
+                            L.marker([promo.latitude, promo.longitude], { title:promo.title, icon: myIcon })
+                            .addTo(this.markers)
+                            .bindPopup(promo.title)
+                            .on('click', ()=> { this.promo = promo })
+                         });
                 },
+                
+                init(){
+                    this.$watch('filters', (value) => this.getPromotions())
 
-                showPromos(){
-                    this.promotions.forEach(promo => {
-                        const marker = L.marker([promo.latitude, promo.longitude], { title:promo.title, icon: myIcon }).addTo(map)
-                        .bindPopup(promo.title)
+                    this.$watch('filters.category', (value, oldValue) => {
+                        this.markers.clearLayers()	
 
-                        marker.on('click', ()=> {
-                            this.promo = promo
-                            console.log(promo)
-                        })
+                        this.promotions = this.promotions.filter((promo) => promo.category_id === value);
 
-                    });
-                }
+                        this.showPromotions(this.promotions)
+                    })
+
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition((position) => {
+                        this.filters.lat = position.coords.latitude;
+                        this.filters.lon = position.coords.longitude;
+                        this.getPromotions()
+                        this.showMap()
+                        }, (error) => {  
+                            console.error(`Error obteniendo la ubicación: ${error.message}`); 
+                            this.getPromotions()
+                            this.showMap()
+                        });
+                    } else {
+                        alert("Geolocation no es soportado por este navegador.");
+                    }       
+                },
             }
         }
-           
     </script>
 </x-app-layout>

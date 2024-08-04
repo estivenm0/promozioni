@@ -10,13 +10,16 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        @isset($head)
+            {{ $head }}
+        @endisset
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <style>
         [x-cloak] { display: none !important; }
     </style>
-    <body class="font-sans antialiased  bg-sky-200">
+    <body class="font-sans antialiased bg-sky-200">
         <div class="min-h-screen">
             @include('layouts.navigation')
 
@@ -24,6 +27,8 @@
             <main class="pt-20">
                 {{ $slot }}
             </main>
+
+            <x-common.toast/>
         </div>
     </body>
 </html>
