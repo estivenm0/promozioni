@@ -1,15 +1,26 @@
 <?php
 
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Promotion;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('guest');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/promociones', [MapController::class, 'index'])->name('map.index');
+
+Route::get('/promos', [MapController::class, 'promotions'])->name('map.promotions');
+Route::get('/categories',[MapController::class, 'categories'])->name('categories');
+
+
+Route::get('/promociones/{promotion}', [MapController::class, 'show'])->name('promotions.show');
+
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Malhal\Geographical\Geographical;
 
 class Promotion extends Model
 {
-    use HasFactory;
+    use HasFactory, Geographical;
+
+    protected static $kilometers = true;
 
     protected $fillable = [
         'branch_id',       
@@ -22,6 +25,12 @@ class Promotion extends Model
         'end_date',       
     ];
 
+    public function getRouteKeyName(): string
+    {
+    return 'slug';
+    }
+
+
     public function branch() : BelongsTo
     {
         return $this->belongsTo(Branch::class);
@@ -31,6 +40,7 @@ class Promotion extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
 
 
 }
