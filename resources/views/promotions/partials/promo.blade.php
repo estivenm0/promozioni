@@ -1,14 +1,14 @@
-<div class="w-full bg-gray-200 md:w-1/2" x-cloak>
+<section class="w-full bg-gray-200 md:w-1/2" >
     {{-- ----- Promotion ----- --}}
-    <div class="flex w-full h-full overflow-hidden bg-white shadow rounded-xl hover:shadow-md" x-show="promo"
-        x-transition>
+    <section class="flex w-full h-full overflow-hidden bg-white shadow rounded-xl hover:shadow-md" x-show="promo"
+        x-transition x-cloak>
         <div class="flex flex-col w-7/12 p-3 pl-3 ">
             <span
                 class="bg-blue-100 mb-2 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300"
                 x-text="promo?.category?.name">
             </span>
 
-            <p class="text-base font-bold " x-text="promo.title"></p>
+            <a :href=`/promociones/${promo.slug}` target="_blank" class="text-base font-bold " x-text="promo.title"></a>
             <p class="mb-2 text-base " x-text="promo.description">
             </p>
             <div class="mb-2 text-xs text-primary">
@@ -23,10 +23,10 @@
                 <img :src=`/storage/promotions/${promo?.image}` class="object-cover w-full h-full rounded-xl" />
             </template>
         </div>
-    </div>
+    </section>
 
     {{-- ----- intructions ----- --}}
-    <section x-show="!promo" x-transition
+    <section x-show="!promo"  x-cloak
         class="block w-full h-full p-6 space-y-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
         <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Instrucciones </h5>
@@ -58,4 +58,4 @@
             Al darle clic a los marcadores rojos, puede ver información sobre la promoción.
         </p>
     </section>
-</div>
+</section>

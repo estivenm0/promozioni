@@ -25,6 +25,12 @@ class Promotion extends Model
         'end_date',       
     ];
 
+    public function getRouteKeyName(): string
+    {
+    return 'slug';
+    }
+
+
     public function branch() : BelongsTo
     {
         return $this->belongsTo(Branch::class);
@@ -34,6 +40,7 @@ class Promotion extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
 
 
 }

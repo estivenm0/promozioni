@@ -4,16 +4,16 @@
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     </x-slot>
 
-    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-data="map()">
+    <section class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-data="map()">
         @include('promotions.partials.categories')
         
-        <div class="flex flex-wrap overflow-hidden bg-white border shadow-sm border-emerald-500 sm:rounded-lg">
+        <div class="flex flex-wrap overflow-hidden border shadow-sm border-emerald-500 sm:rounded-lg">
             <div class="z-0 w-full p-6 text-gray-900 md:w-1/2 h-96" id="map"></div>
 
             @include('promotions.partials.promo')
         </div>
         
-    </div>
+    </section>
 
     <script>
         function map(){

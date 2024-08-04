@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Branch;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Promotion>
@@ -18,11 +19,12 @@ class PromotionFactory extends Factory
      */
     public function definition(): array
     {
+        $title = fake()->sentence(4);
         return [
             'branch_id' => Branch::factory(),
             'category_id' =>  $this->getCategory(),
-            'title' => fake()->sentence(2),
-            'slug' => fake()->sentence(4),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'description' => fake()->paragraph(),
             'image' => 'promotion.jpg',
             'longitude' => fake()->longitude(-74.2234, -74.0137),

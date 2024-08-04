@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PromotionController;
-use App\Models\Category;
 use App\Models\Promotion;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -13,11 +11,15 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::get('/promociones', [MapController::class, 'index'])->name('map.index');
-Route::get('/promos', [MapController::class, 'promotions'])->name('map.promotions');
 
-Route::get('/categories',function(){
-    return Category::all();
-})->name('categories');
+Route::get('/promos', [MapController::class, 'promotions'])->name('map.promotions');
+Route::get('/categories',[MapController::class, 'categories'])->name('categories');
+
+
+Route::get('/promociones/{promotion}', [MapController::class, 'show'])->name('promotions.show');
+
+
+
 
 
 Route::middleware('auth')->group(function () {
