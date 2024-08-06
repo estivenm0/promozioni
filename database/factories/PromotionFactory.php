@@ -19,7 +19,7 @@ class PromotionFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->sentence(4);
+        $title = fake()->sentence(3);
         return [
             'branch_id' => Branch::factory(),
             'category_id' =>  $this->getCategory(),
