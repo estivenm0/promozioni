@@ -10,7 +10,8 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
 
-Route::get('/promociones', [MapController::class, 'index'])->name('map.index');
+Route::get('/promociones', [MapController::class, 'index'])
+->name('home');
 
 Route::get('/promos', [MapController::class, 'promotions'])->name('map.promotions');
 Route::get('/categories',[MapController::class, 'categories'])->name('categories');

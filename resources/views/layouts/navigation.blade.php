@@ -3,7 +3,7 @@
 
     <div class="flex flex-wrap items-center justify-between w-full px-4 py-2 mx-auto">
         {{-- ---- Logo and Name ----- --}}
-        <a href="{{route('map.index')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="{{route('home')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Promozioni</span>
         </a>
