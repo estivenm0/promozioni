@@ -78,7 +78,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     ->icon('heroicons.building-storefront'),
 
                 MenuItem::make('Sucursales', new BranchResource())
-                    ->badge(Branch::where('status', 'pendiente')->count())
+                    ->badge(fn()=>Branch::where('status', 'pendiente')->count())
                     ->icon('heroicons.map-pin'),
 
                 MenuItem::make('Promociones', new PromotionResource())
