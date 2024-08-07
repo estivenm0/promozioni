@@ -4,6 +4,7 @@
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     </x-slot>
 
+    {{-- ____ Map ___ --}}
     <section class="mx-auto max-w-7xl sm:px-6 lg:px-8" x-data="map()">
         @include('promotions.partials.categories')
         
@@ -12,9 +13,10 @@
 
             @include('promotions.partials.promo')
         </div>
-        
     </section>
 
+
+    {{-- _____ Alpine Component ______ --}}
     <script>
         function map(){
             return {

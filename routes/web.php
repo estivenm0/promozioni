@@ -10,15 +10,14 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
 
-Route::get('/promociones', [MapController::class, 'index'])
-->name('home');
-
+Route::get('/promociones', [MapController::class, 'index'])->name('home');
 Route::get('/promos', [MapController::class, 'promotions'])->name('map.promotions');
+Route::get('/promociones/{promotion}', [MapController::class, 'promotion'])->name('promotions.show');
 Route::get('/categories',[MapController::class, 'categories'])->name('categories');
 
 
-Route::get('/promociones/{promotion}', [MapController::class, 'show'])->name('promotions.show');
-
+Route::get('/sucursal/{name}', [MapController::class, 'branch'])->name('branches.show');
+Route::get('/sucursal/{name}/valoraciones', [MapController::class, 'branchRatings'])->name('branches.ratings');
 
 
 

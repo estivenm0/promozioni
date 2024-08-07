@@ -98,4 +98,9 @@
             </ul>
         </div>
     </div>
+    <span class="bg-gray-800 text-xs font-medium text-white text-center p-2 leading-none rounded-full absolute  translate-y-1/2 translate-x-1/2 bottom-0 right-1/2">
+        {{  Route::is('branches*')? 'Surcursal' : null }}
+        {{  Route::is('home') ?  'Promociones' : null }}
+        {{  Route::is('promotions*') ? 'Promoción': null }}
+    </span>
 </nav>

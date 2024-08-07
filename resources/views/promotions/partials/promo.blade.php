@@ -1,5 +1,5 @@
-<section class="w-full bg-gray-200 md:w-1/2" >
-    {{-- ----- Promotion ----- --}}
+<section class="w-full bg-gray-200 md:w-1/2">
+    {{-- _____ Promotion _____ --}}
     <section class="flex w-full h-full overflow-hidden bg-white shadow rounded-xl hover:shadow-md" x-show="promo"
         x-transition x-cloak>
         <div class="flex flex-col w-7/12 p-3 pl-3 ">
@@ -8,15 +8,21 @@
                 x-text="promo?.category?.name">
             </span>
 
-            <a :href=`/promociones/${promo.slug}` target="_blank" class="text-base font-bold " x-text="promo.title"></a>
+            <a :href=`/promociones/${promo.slug}` target="_blank"
+                class="text-base font-bold underline underline-offset-2" x-text="promo.title"></a>
             <p class="mb-2 text-base " x-text="promo.description">
             </p>
             <div class="mb-2 text-xs text-primary">
-                <a class="flex items-center cursor-pointer" target="_blank">
-                    <span class="text-sm font-bold tracking-wide text-pink-400" x-text="promo?.branch?.name"></span>
+                <a class="flex items-center cursor-pointer" target="_blank" :href=`/sucursal/${promo.branch.name}`>
+                    <span class="text-sm font-bold tracking-wide text-emerald-600 underline underline-offset-2"
+                        x-text="promo?.branch?.name"></span>
                 </a>
             </div>
-            <div class="text-sm tracking-wider text-text2">finaliza en: <span x-text="promo.end_date"></span> </div>
+            <div class="text-sm tracking-wider text-text2">finaliza el:
+                <span
+                    class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300"
+                    x-text="promo.end_date">Indigo</span>
+            </div>
         </div>
         <div class="flex w-5/12 p-2 lg:flex">
             <template x-if="promo">
@@ -25,8 +31,8 @@
         </div>
     </section>
 
-    {{-- ----- intructions ----- --}}
-    <section x-show="!promo"  x-cloak
+    {{-- ______ intructions ______ --}}
+    <section x-show="!promo" x-cloak
         class="block w-full h-full p-6 space-y-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
         <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Instrucciones </h5>

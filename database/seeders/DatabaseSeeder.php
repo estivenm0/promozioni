@@ -33,11 +33,11 @@ class DatabaseSeeder extends Seeder
             ->has(
                 Branch::factory()->count(10)
                     ->afterCreating(function (Branch $branch) {
-                        Promotion::factory(1)
+                        Promotion::factory(4)
                             ->for($branch)
                             ->create();
 
-                        Rating::factory(2)
+                        Rating::factory(5)
                             ->for($branch)
                             ->create();
                     })
