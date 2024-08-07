@@ -41,6 +41,13 @@ class Promotion extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getImageURL()
+    {
+        if ($this->image) {
+            return url('/storage/promotions/' . $this->image);
+        }
+    }
+
 
 
 }

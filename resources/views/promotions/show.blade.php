@@ -20,7 +20,7 @@
                     <div
                         class="block px-6 py-2 space-y-2 text-white bg-indigo-500 border-0 rounded text-md focus:outline-none ">
                         
-                        <a class="flex items-start p-1 text-white border-b border-white rounded cursor-pointer text-md focus:outline-none hover:bg-indigo-600">
+                        <a href="{{route('branches.show', $promotion->branch->name)}}" class="flex items-start p-1 text-white border-b border-white rounded cursor-pointer text-md focus:outline-none hover:bg-indigo-600">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
