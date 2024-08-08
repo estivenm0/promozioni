@@ -1,14 +1,13 @@
 @extends('branches.partials.show')
 
 @section('content')
-<div class="flex flex-wrap gap-2 p-2">
+<div class="flex flex-wrap justify-center gap-2 p-2">
     @foreach ($promotions as $promotion)
-    <div
-        class="bg-white border border-gray-200 rounded-lg shadow md:w-1/5 dark:bg-gray-800 dark:border-gray-700">
+    <div class="bg-white border border-gray-200 rounded-lg shadow sm:w-1/3 md:w-1/6 dark:bg-gray-800 dark:border-gray-700">
         <img class="rounded-t-lg" src="{{$promotion->getImageURL()}}" alt="{{$promotion->title}}" />
 
         <div class="p-2">
-            <h5 class="mb-2 font-bold tracking-tight text-gray-900 text-md dark:text-white">
+            <h5 class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white">
                 {{$promotion->title}}
             </h5>
 

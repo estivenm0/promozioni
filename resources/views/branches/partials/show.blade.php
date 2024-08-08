@@ -1,7 +1,7 @@
 <x-app-layout>
     <section class="mb-6 text-gray-600 xl:px-36 body-font">
         <div class="container p-3 m-auto mx-auto rounded-md bg-gray-100/70 ">
-            <div class="flex flex-wrap justify-center p-4">
+            <div class="flex flex-wrap justify-center">
 
                 <div class="flex flex-col leading-normal sm:w-10/12 md:px-5">
                     <h2>Sucursal</h2>
@@ -12,11 +12,11 @@
                         {{$branch->address}}
                     </p>
                     <hr>
-                    <div class="bg-gray-300/40 p-2 rounded-md">
-                        <h2 class="">
+                    <div class="p-2 rounded-md bg-gray-300/40">
+                        <h2>
                             Empresa
                         </h2>
-                        <p class="text-base leading-2 my-2">
+                        <p class="my-2 text-base leading-2">
                             <span class="italic font-semibold text-indigo-600 text-md">
                                 {{$branch->business->name}}:
                             </span>
@@ -37,11 +37,11 @@
             <div class="border-b border-gray-200 dark:border-gray-700">
                 <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                     <li class="me-2">
-                        <a href="{{route('branches.show', $branch->name)}}"
+                        <a href="{{route('branches.promotions', $branch->name)}}"
                             class="inline-flex items-center justify-center p-4 
-                            {{Route::is('branches.show') ? 'text-blue-600   border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}}"
+                            {{Route::is('branches.promotions') ? 'text-blue-600   border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group' : 'border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'}}"
                             aria-current="page">
-                            <svg class="w-4 h-4 {{Route::is('branches.show') ? 'text-blue-600 me-2 dark:text-blue-500' : 'text-gray-400 me-2 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300'  }}"
+                            <svg class="w-4 h-4 {{Route::is('branches.promotions') ? 'text-blue-600 me-2 dark:text-blue-500' : 'text-gray-400 me-2 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300'  }}"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 18 18">
                                 <path
