@@ -8,12 +8,12 @@
                 x-text="promo?.category?.name">
             </span>
 
-            <a :href=`/promociones/${promo.slug}` target="_blank"
+            <a :href=`/promociones/${promo?.slug}` target="_blank"
                 class="text-base font-bold underline underline-offset-2" x-text="promo.title"></a>
             <p class="mb-2 text-base " x-text="promo.description">
             </p>
             <div class="mb-2 text-xs text-primary">
-                <a class="flex items-center cursor-pointer" target="_blank" :href=`/sucursal/${promo.branch.name}`>
+                <a class="flex items-center cursor-pointer" target="_blank" :href=`/sucursales/${promo?.branch?.name}`>
                     <span class="text-sm font-bold tracking-wide text-emerald-600 underline underline-offset-2"
                         x-text="promo?.branch?.name"></span>
                 </a>
