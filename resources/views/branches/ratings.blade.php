@@ -7,9 +7,9 @@
 
 {{-- _____ Form Rating _____ --}}
 @if($can_rating)
-    <form method="POST" action="{{route('ratings.store', $branch->name)}}" class=" md:px-20 ">
+    <form method="POST" action="{{route('ratings.store', $branch->name)}}" class=" md:px-20">
         @csrf
-        <div class="w-fullmb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <div class="border border-gray-200 rounded-lg w-fullmb-4 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
             <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                 <label for="comment" class="sr-only">Tú Valoración</label>
                 <textarea id="comment" rows="1"
@@ -58,9 +58,9 @@
 {{-- _____ Ratings ______ --}}
 <div class="flex flex-wrap justify-center gap-2 p-2">
     @foreach ($ratings as $rating)
-    <div class="bg-white border w-full border-gray-200 rounded-lg shadow md:w-1/5 dark:bg-gray-800 dark:border-gray-700">
+    <div class="w-full bg-white border border-gray-200 rounded-lg shadow md:w-1/5 dark:bg-gray-800 dark:border-gray-700">
         <div class="p-2">
-            <h5 class="mb-1 font-bold tracking-tight text-gray-900 text-sm dark:text-white">
+            <h5 class="mb-1 text-sm font-bold tracking-tight text-gray-900 dark:text-white">
                 {{$rating->user->name}}
             </h5>
             <p class="text-sm">
