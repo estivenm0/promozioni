@@ -50,10 +50,9 @@
                 </div>
             </div>
             <div class="w-5/6 m-auto lg:max-w-lg md:w-1/3 ">
-                <img class="object-cover object-center rounded" alt="hero"
+                <img class="object-cover object-center rounded" alt="promoción"
                     src="{{'/storage/promotions/'. $promotion->image}}">
             </div>
         </div>
-
     </section>
 </x-app-layout>

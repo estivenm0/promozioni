@@ -4,6 +4,8 @@
 @guest
 <p class="text-xs text-red-500 ms-auto ">Si desea dejar una valoración, debe iniciar sesión.</p>
 @endguest
+
+{{-- _____ Form Rating _____ --}}
 @if($can_rating)
     <form method="POST" action="{{route('ratings.store', $branch->name)}}" class=" md:px-20 ">
         @csrf
@@ -53,6 +55,7 @@
 @endif
 
 
+{{-- _____ Ratings ______ --}}
 <div class="flex flex-wrap justify-center gap-2 p-2">
     @foreach ($ratings as $rating)
     <div class="bg-white border w-full border-gray-200 rounded-lg shadow md:w-1/5 dark:bg-gray-800 dark:border-gray-700">
