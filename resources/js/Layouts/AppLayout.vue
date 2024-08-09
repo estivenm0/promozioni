@@ -1,11 +1,11 @@
 <template>
-   <main>
-      <AsideBar/>
+    <main>
+        <AsideBar />
 
-      <div class="p-4 sm:ml-64">
-         <slot />
-      </div>
-   </main>
+        <div class="p-4 sm:ml-64">
+            <slot />
+        </div>
+    </main>
 </template>
 
 <script setup>
