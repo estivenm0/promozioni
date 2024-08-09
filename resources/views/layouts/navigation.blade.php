@@ -48,7 +48,7 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('panel')">
+                            <x-dropdown-link :href="route('panel')" target="_blank">
                                 {{ __('Panel') }}
                             </x-dropdown-link>
 
@@ -73,6 +73,10 @@
                     <div class="mt-3 space-y-1">
                         <x-responsive-nav-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-responsive-nav-link>
+                        
+                        <x-responsive-nav-link :href="route('panel')" target="_blank">
+                            {{ __('Panel') }}
                         </x-responsive-nav-link>
 
                         <!-- Authentication -->
@@ -102,4 +106,11 @@
             </ul>
         </div>
     </div>
+
+    <span class="bg-gray-800 text-xs font-medium text-white text-center p-2 leading-none rounded-full absolute  translate-y-1/2 translate-x-1/2 bottom-0 right-1/2">
+        {{  Route::is('branches*')? 'Surcursal' : null }}
+        {{  Route::is('home') ?  'Promociones' : null }}
+        {{  Route::is('promotions*') ? 'Promoción': null }}
+    </span>
 </nav>
+

@@ -35,4 +35,5 @@ class Branch extends Model
     {
         return $this->hasMany(Promotion::class);
     }
+
 }

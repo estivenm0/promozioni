@@ -35,4 +35,11 @@ class Business extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getImageURL()
+    {
+        if ($this->image) {
+            return url('/storage/businesses/' . $this->image);
+        }
+    }
 }

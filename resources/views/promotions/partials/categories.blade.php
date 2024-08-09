@@ -16,7 +16,7 @@
         if(sessionStorage.getItem('categories')){
           this.ctgs = JSON.parse(sessionStorage.getItem('categories'));
         }else{
-          axios.get('{{route('categories')}}')
+          axios.get('{{route('map.categories')}}')
           .then(res => {
             this.ctgs = res.data;
             sessionStorage.setItem("categories", JSON.stringify(res.data));

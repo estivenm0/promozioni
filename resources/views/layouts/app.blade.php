@@ -19,8 +19,9 @@
     <style>
         [x-cloak] { display: none !important; }
     </style>
-    <body class="font-sans antialiased bg-sky-200">
+    <body class="font-sans antialiased bg-sky-500 backdrop-filter">
         <div class="min-h-screen">
+
             @include('layouts.navigation')
 
             <!-- Page Content -->

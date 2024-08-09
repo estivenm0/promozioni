@@ -2,25 +2,30 @@
 
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Promotion;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('guest');
+Route::view('/', 'welcome')->middleware('guest');
 
-Route::get('/promociones', [MapController::class, 'index'])
-->name('home');
+// ____ Async ______
+Route::get('/promotions', [MapController::class, 'promotions'])->name('map.promotions');
+Route::get('/categories', [MapController::class, 'categories'])->name('map.categories');
 
-Route::get('/promos', [MapController::class, 'promotions'])->name('map.promotions');
-Route::get('/categories',[MapController::class, 'categories'])->name('categories');
+// _____ Promotions ______
+Route::get('/promociones', [MapController::class, 'index'])->name('home');
+Route::get('/promociones/{promotion}', [MapController::class, 'promotion'])->name('promotions.show');
 
+// _____ Branches _______
+Route::get('/sucursales/{name}', [MapController::class, 'branchPromotions'])->name('branches.promotions');
+Route::get('/sucursales/{name}/valoraciones', [MapController::class, 'branchRatings'])->name('branches.ratings');
 
-Route::get('/promociones/{promotion}', [MapController::class, 'show'])->name('promotions.show');
+// ______ Ratings ______
+Route::middleware('auth')->group(function () {
+    Route::post('/sucursal/{name}/valoraciones', [MapController::class, 'ratingStore'])
+        ->name('ratings.store');
 
-
-
+    Route::get('sucursales/valoraciones/{rating}', [MapController::class, 'ratingDelete'])
+        ->name('ratings.delete');
+});
 
 
 Route::middleware('auth')->group(function () {
@@ -29,4 +34,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
