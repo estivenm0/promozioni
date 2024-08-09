@@ -48,7 +48,7 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('panel')">
+                            <x-dropdown-link :href="route('panel')" target="_blank">
                                 {{ __('Panel') }}
                             </x-dropdown-link>
 
@@ -73,6 +73,10 @@
                     <div class="mt-3 space-y-1">
                         <x-responsive-nav-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-responsive-nav-link>
+                        
+                        <x-responsive-nav-link :href="route('panel')" target="_blank">
+                            {{ __('Panel') }}
                         </x-responsive-nav-link>
 
                         <!-- Authentication -->
