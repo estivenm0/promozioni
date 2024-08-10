@@ -18,7 +18,7 @@
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="#"
+                    <a href="#" @click.prevent="setContent('Negocios')"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="22" height="22"
                             version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"
@@ -141,6 +141,9 @@
 </template>
 
 <script setup>
+import {inject} from 'vue'
+
+const setContent = inject('setContent')
 </script>
 
 <style lang="scss" scoped></style>
