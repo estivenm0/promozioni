@@ -22,7 +22,7 @@ class RatingFactory extends Factory
             'user_id'=> User::factory(),
             'branch_id'=> Branch::factory(),
             'value' => random_int(1, 5),
-            'content' => fake()->paragraph()
+            'content' => fake()->sentence(4)
         ];
     }
 }

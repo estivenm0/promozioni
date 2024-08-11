@@ -11,6 +11,7 @@ use App\Models\Type;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,11 +26,14 @@ class DatabaseSeeder extends Seeder
             MoonshineSeeder::class
         ]);
 
-        // User::factory(10)->create();
+        $user = User::factory()->create([
+            'email' => 'example@gmail.com',
+            'password' => Hash::make('123456789'),
+        ]);
 
-        for ($i=0; $i < 15; $i++) { 
-        Business::factory(1)
-            ->for(User::factory())
+
+        Business::factory(10)
+            ->for($user)
             ->has(
                 Branch::factory()->count(10)
                     ->afterCreating(function (Branch $branch) {
@@ -43,7 +47,7 @@ class DatabaseSeeder extends Seeder
                     })
             )
             ->create();
-        }
+        
 
 
         BusinessType::factory(50)->create();

@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function() {
-            Route::middleware('inertia')
+            Route::middleware(['inertia', 'web', 'auth'])
             ->group(base_path('/routes/panel.php'));
         }
     )

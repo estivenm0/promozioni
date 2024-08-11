@@ -1,22 +1,22 @@
 <?php
 
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Branch;
+use App\Models\Business;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/panel', function () {
     return Inertia::render('Home', [
-        'users' => User::all()
+        
     ]);
-
 })->name('panel');
 
-// Route::get('/hola', function () {
-//     return Inertia::render('Hola', [
-//         'migration' =>''
-//     ]);
-//     // return to_route('panel');
-// });
+
+Route::resource('/negocios', BusinessController::class)
+->only('index', 'create');
 
 
