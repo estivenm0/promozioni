@@ -1,6 +1,6 @@
 <x-app-layout>
-    <section class="mb-6 text-gray-600 xl:px-36 body-font">
-        <div class="container p-3 m-auto mx-auto rounded-md bg-gray-100/70 ">
+    <section class="text-gray-800 xl:px-36 pb-8 body-font">
+        <div class="container p-3 m-auto mx-auto rounded-md bg-gray-200 ">
             <div class="flex flex-wrap justify-center">
 
                 <div class="flex flex-col leading-normal sm:w-10/12 md:px-5">

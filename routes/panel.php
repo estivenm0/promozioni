@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/panel', function () {
-    return Inertia::render('Home', [
-        
-    ]);
-})->name('panel');
+Route::prefix('/panel')->group(function(){
+    
+    Route::resource('/negocios', BusinessController::class)
+    ->names('businesses');
+
+});
 
 
-Route::resource('/negocios', BusinessController::class)
-->only('index', 'create');
+
 
 

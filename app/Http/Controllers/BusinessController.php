@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BusinessResource;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,8 +14,8 @@ class BusinessController extends Controller
      */
     public function index(Request $r)
     {
-        $businesses = $r->user()->businesses()->paginate(5);
-        return Inertia::render('Business/Index', [
+        $businesses = $r->user()->businesses()->get();
+        return Inertia::render('Businesses/Index', [
             'businesses' => BusinessResource::collection($businesses)
         ]);
     }
@@ -24,7 +25,10 @@ class BusinessController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Business/Create');
+        return Inertia::render('Businesses/Form', [
+            'title' => 'Crear Negocio',
+            'types' => Type::get() 
+        ]);
     }
 
     /**
@@ -38,17 +42,28 @@ class BusinessController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $name, Request $r)
     {
-        //
+        $business = $r->user()->businesses()->whereName($name)->firstOrFail();
+
+        return Inertia::render('Businesses/Show', [
+            'business' => $business
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $name, Request $r)
     {
-        //
+        $business = $r->user()->businesses()
+                    ->whereName($name)->firstOrFail();
+                    
+        return Inertia::render('Businesses/Form', [
+            'title' => 'Editar Negocio',
+            'types' => Type::get(),
+            'business' => $business
+        ]);
     }
 
     /**
@@ -62,8 +77,12 @@ class BusinessController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $name, Request $r)
     {
-        //
+        $r->user()->businesses()
+            ->whereName($name)
+            ->firstOrFail()->delete();
+
+        return to_route('businesses.index');
     }
 }

@@ -28,7 +28,7 @@
                     category: 0,
                     lat: 4.5981,
                     lon: -74.0758,
-                    km: 6,
+                    km: 4,
                 },
 
                 getPromotions(){

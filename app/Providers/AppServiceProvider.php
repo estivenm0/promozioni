@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Policies\MoonshineUserPolicy;
 use App\Policies\MoonshineUserRolePolicy;
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\Models\MoonshineUser;
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        JsonResource::withoutWrapping();
         Gate::policy(MoonshineUser::class, MoonshineUserPolicy::class);
         Gate::policy(MoonshineUserRole::class, MoonshineUserRolePolicy::class);
     }

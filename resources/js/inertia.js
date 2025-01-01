@@ -1,9 +1,10 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import "flyonui/flyonui";
 import './bootstrap';
-import 'flowbite';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Promozioni';
+
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,

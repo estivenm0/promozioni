@@ -1,17 +1,21 @@
-<template>
-    <main class="bg-white dark:bg-gray-900">
-        <AsideBar />
+<script setup>
+import { onMounted } from 'vue'
+import NavBar from '../Components/Common/NavBar.vue';
+import { usePage } from '@inertiajs/vue3';
 
-        <div class="p-4 sm:ml-64 min-h-dvh">
+onMounted(() => { window.HSStaticMethods.autoInit(); })
+
+console.log(usePage().props)
+
+</script>
+
+<template>
+    <main class="bg-base-100">
+        <NavBar/> 
+
+        <div class="p-4 min-h-dvh">
             <slot />
         </div>
     </main>
 </template>
 
-<script setup>
-import { onMounted } from 'vue'
-import AsideBar from '../Components/Common/AsideBar.vue';
-
-
-onMounted(() => { initFlowbite() })
-</script>

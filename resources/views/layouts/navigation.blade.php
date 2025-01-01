@@ -1,31 +1,20 @@
-<nav class="fixed z-50  w-[calc(100%-2rem)]  -translate-x-1/2    lg:max-w-7xl left-1/2 top-2  border-gray-200 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700 shadow-indigo-300"
+<nav class="fixed z-50  w-[calc(100%-2rem)]  -translate-x-1/2    lg:max-w-7xl left-1/2 top-2  border-gray-200 rounded-lg shadow-md bg-gray-50/70  shadow-indigo-300"
     id="marketing-banner" tabindex="-1">
 
     <div class="flex flex-wrap items-center justify-between w-full px-4 py-2 mx-auto">
         {{-- ---- Logo and Name ----- --}}
         <a href="{{route('home')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Promozioni</span>
         </a>
 
-        {{-- ------- open button ------- --}}
-        <button data-collapse-toggle="navbar-solid-bg" type="button"
-            class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-solid-bg" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
-        </button>
 
         {{-- -------- Items ------- --}}
-        <div class="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
+        <div class="my-auto md:block md:w-auto" >
             <ul
                 class="flex flex-col mt-4 font-medium rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
 
                 @auth
-                <div class="hidden md:flex md:items-center md:ms-6">
+                <div class=" md:flex md:items-center md:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -48,7 +37,7 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('panel')" target="_blank">
+                            <x-dropdown-link :href="route('businesses.index')" target="_blank">
                                 {{ __('Panel') }}
                             </x-dropdown-link>
 
@@ -64,32 +53,7 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-                <div class="pt-4 pb-1 border-t border-gray-200 md:hidden">
-                    <div class="px-4">
-                        <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
-                        <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
-                    </div>
 
-                    <div class="mt-3 space-y-1">
-                        <x-responsive-nav-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-responsive-nav-link>
-                        
-                        <x-responsive-nav-link :href="route('panel')" target="_blank">
-                            {{ __('Panel') }}
-                        </x-responsive-nav-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-responsive-nav-link>
-                        </form>
-                    </div>
-                </div>
 
                 @else
                 <li>

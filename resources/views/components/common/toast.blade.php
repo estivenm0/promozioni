@@ -5,9 +5,8 @@
                     setTimeout(() => {
                         show = false;
                     }, 3000);
-}" id="toast-top-left" x-cloak
-    class="fixed z-50 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white border divide-x divide-gray-200 rounded-lg shadow rtl:divide-x-reverse top-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 border-sky-500 "
-    role="alert">
+}" x-cloak
+    class="fixed z-50 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-800 bg-gray-100/90 border  rounded-lg shadow  top-5 left-5    border-sky-500 ">
 
     <div x-show="type === 'success'"
         class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">

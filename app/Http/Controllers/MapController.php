@@ -77,7 +77,7 @@ class MapController extends Controller
     {
         $branch = Branch::where('name', $name)->firstOrFail();
         $r->validate([
-            'Comentario' => 'nullable|max:200',
+            'comentario' => 'nullable|max:200',
             'valoracion' => 'required|max:5|min:1|numeric|integer'
         ]);
 

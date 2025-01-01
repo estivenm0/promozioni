@@ -1,6 +1,5 @@
 import './bootstrap';
-import 'flowbite';
-
+import "flyonui/flyonui";
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
