@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Branch;
@@ -14,6 +15,12 @@ Route::prefix('/panel')->group(function(){
     Route::resource('/negocios', BusinessController::class)
     ->names('businesses');
 
+    Route::prefix('{business}')->group( function() {
+        Route::resource('/sucursales', BranchController::class)
+        ->names('branches');
+
+    });
+            
 });
 
 

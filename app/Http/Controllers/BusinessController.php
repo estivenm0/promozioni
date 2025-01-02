@@ -14,9 +14,12 @@ class BusinessController extends Controller
      */
     public function index(Request $r)
     {
-        $businesses = $r->user()->businesses()->get();
+        $businesses = $r->user()->businesses()
+                        ->select('name', 'image')
+                        ->get();
+
         return Inertia::render('Businesses/Index', [
-            'businesses' => BusinessResource::collection($businesses)
+            'businesses' => $businesses
         ]);
     }
 
@@ -34,9 +37,16 @@ class BusinessController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $r)
     {
-        //
+        $r->validate([
+            'name' => 'required|string|max:100|unique:businesses,name',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255',
+            'phone' => 'nullable|string|max:255',
+        ]);
+        
     }
 
     /**
@@ -44,10 +54,13 @@ class BusinessController extends Controller
      */
     public function show(string $name, Request $r)
     {
-        $business = $r->user()->businesses()->whereName($name)->firstOrFail();
+        $business = $r->user()->businesses()
+                    ->with('types')
+                    ->whereName($name)->firstOrFail();
 
         return Inertia::render('Businesses/Show', [
-            'business' => $business
+            'business' => $business,
+            'branches' => $business->branches()->paginate(5),
         ]);
     }
 
@@ -58,7 +71,7 @@ class BusinessController extends Controller
     {
         $business = $r->user()->businesses()
                     ->whereName($name)->firstOrFail();
-                    
+
         return Inertia::render('Businesses/Form', [
             'title' => 'Editar Negocio',
             'types' => Type::get(),

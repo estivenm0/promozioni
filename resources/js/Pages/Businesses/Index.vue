@@ -17,7 +17,7 @@ defineProps(['businesses'])
                 <template v-for="(business, index) in businesses" :key="index">
                     <Link :href="`/panel/negocios/${business.name}`"
                     class="card image-full card-compact" :title="business.name"  >
-                        <figure><img :src="business.image"  :alt="business.name" /></figure>
+                        <figure><img :src="`/storage/businesses/${business.image}`"  :alt="business.name" /></figure>
                         <div class="card-body truncate">
                             <h2 class="text-sm text-white">{{ business.name }}</h2>
                         </div>
