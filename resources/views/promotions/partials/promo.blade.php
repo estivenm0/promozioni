@@ -1,18 +1,20 @@
-<section class="w-full bg-gray-200 md:w-1/2 md:h-96">
+<section class="w-full bg-teal-800 md:w-1/2 md:h-96">
     {{-- _____ Promotion _____ --}}
     <section class="flex w-full h-full overflow-hidden  shadow rounded-xl hover:shadow-md" x-show="promo"
         x-transition x-cloak>
-        <div class="flex flex-col w-7/12 p-3 pl-3 text-gray-800" >
-            <span class="badge badge-soft badge-primary rounded-full" x-text="promo?.category?.name"></span>
+        <div class="flex flex-col w-7/12 p-3 pl-3 text-gray-100" >
+            <span class="badge badge-primary rounded-full" x-text="promo?.category?.name"></span>
 
-            <a :href=`/promociones/${promo?.slug}` target="_blank"
-                class="text-base font-bold underline underline-offset-2" x-text="promo.title"></a>
+            <a :href=`/promociones/${promo?.slug}` target="_blank" class="mt-2 badge badge-soft badge-success" >
+                <span class="icon-[tabler--map-pin-filled]"></span>
+                <span x-text="promo.title" ></span>
+            </a>
             <p class="mb-2 text-base " x-text="promo.description">
             </p>
             <div class="mb-2 text-xs text-primary">
-                <a class="flex items-center cursor-pointer" target="_blank" :href=`/sucursales/${promo?.branch?.name}`>
-                    <span class="text-sm font-bold tracking-wide text-emerald-600 underline underline-offset-2"
-                        x-text="promo?.branch?.name"></span>
+                <a class="badge badge-accent" target="_blank" :href=`/sucursales/${promo?.branch?.name}`>
+                    <span class=" icon-[tabler--building-store]"></span>
+                    <span x-text="promo?.branch?.name" ></span>
                 </a>
             </div>
             <div class="text-sm tracking-wider ">Termina:
@@ -28,7 +30,7 @@
 
     {{-- ______ intructions ______ --}}
     <section x-show="!promo" x-cloak
-        class="block w-full h-full p-6 space-y-3 border border-gray-200 rounded-lg shadow text-gray-800 ">
+        class="block w-full h-full p-6 space-y-3 rounded-lg shadow text-gray-100 ">
 
         <h5 class="text-2xl font-bold tracking-tight">Instrucciones </h5>
 

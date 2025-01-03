@@ -1,4 +1,4 @@
-<nav class="fixed z-50  w-[calc(100%-2rem)]  -translate-x-1/2    lg:max-w-7xl left-1/2 top-2  border-gray-200 rounded-lg shadow-md bg-gray-50/70  shadow-indigo-300"
+<nav class="fixed z-50  w-[calc(100%-2rem)]  -translate-x-1/2    lg:max-w-7xl left-1/2 top-2  border-gray-200 rounded-lg shadow-md bg-teal-900  shadow-indigo-300"
     id="marketing-banner" tabindex="-1">
 
     <div class="flex flex-wrap items-center justify-between w-full px-4 py-2 mx-auto">
@@ -9,7 +9,7 @@
 
 
         {{-- -------- Items ------- --}}
-        <div class="my-auto md:block md:w-auto" >
+        <div class="my-auto md:block md:w-auto">
             <ul
                 class="flex flex-col mt-4 font-medium rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
 
@@ -57,24 +57,24 @@
 
                 @else
                 <li>
-                    <a href="{{ route('login') }}"
-                        class="block px-3 py-2 text-gray-900 rounded md:p-0 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-emerald-700 dark:text-white md:dark:hover:text-emerald-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Iniciar
-                        Sesión</a>
+                    <a href="{{ route('login') }}" class="btn btn-soft btn-accent">
+                        Iniciar Sesión
+                    </a>
                 </li>
 
                 <li>
-                    <a href="{{ route('register') }}"
-                        class="block px-3 py-2 text-gray-900 rounded md:p-0 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-sky-700 dark:text-white md:dark:hover:text-sky-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Registrarme</a>
+                    <a href="{{ route('register') }}" class="btn btn-soft btn-success">
+                        Registrarme
+                    </a>
                 </li>
                 @endauth
             </ul>
         </div>
     </div>
 
-    <span class="bg-gray-800 text-xs font-medium text-white text-center p-2 leading-none rounded-full absolute  translate-y-1/2 translate-x-1/2 bottom-0 right-1/2">
-        {{  Route::is('branches*')? 'Surcursal' : null }}
-        {{  Route::is('home') ?  'Promociones' : null }}
-        {{  Route::is('promotions*') ? 'Promoción': null }}
+    <span class="badge rounded-full text-white absolute  translate-y-1/2 translate-x-1/2 bottom-0 right-1/2">
+        {{ Route::is('branches*')? 'Surcursal' : null }}
+        {{ Route::is('home') ? 'Promociones' : null }}
+        {{ Route::is('promotions*') ? 'Promoción': null }}
     </span>
 </nav>
-

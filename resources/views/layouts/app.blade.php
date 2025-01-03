@@ -17,7 +17,7 @@
     <style>
         [x-cloak] { display: none !important; }
     </style>
-    <body class="font-sans antialiased bg-green-700 backdrop-filter min-h-screen">
+    <body class="font-sans antialiased bg-emerald-700 backdrop-filter min-h-screen">
         
             @include('layouts.navigation')
 

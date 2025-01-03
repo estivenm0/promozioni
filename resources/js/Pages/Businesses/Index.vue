@@ -11,6 +11,7 @@ defineProps(['businesses'])
             <Link href="/panel/negocios/create" class="btn btn-primary">
             Crear Negocio
             </Link>
+            
 
             <div class="w-full grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 mt-4 gap-2 justify-center">
 

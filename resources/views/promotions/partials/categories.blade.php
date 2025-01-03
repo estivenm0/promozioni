@@ -3,7 +3,7 @@
     class="select max-w-sm rounded-full bg-gray-100/70 text-black" >
       <option selected value="0">Todas las categorias</option>
       <template x-for="(item, i) in ctgs" :key="i">  
-        <option :value="item.id" x-text="item.name"></option>
+        <option :value="item.id" x-text="item.name" ></option>
       </template>
     </select>
 </div>

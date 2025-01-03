@@ -6,8 +6,6 @@ import CBusiness from '../../Components/CBusiness.vue';
 
 
 const { business } = defineProps(['business', 'branches'])
-
-
 </script>
 
 <template>

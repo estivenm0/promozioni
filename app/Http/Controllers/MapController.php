@@ -78,13 +78,13 @@ class MapController extends Controller
         $branch = Branch::where('name', $name)->firstOrFail();
         $r->validate([
             'comentario' => 'nullable|max:200',
-            'valoracion' => 'required|max:5|min:1|numeric|integer'
+            'estrellas' => 'required|max:5|min:1|numeric|integer'
         ]);
 
         $r->user()->ratings()->create([
             'branch_id' => $branch->id,
             'content' => $r->comentario,
-            'value' => $r->valoracion,
+            'value' => $r->estrellas,
         ]);
 
         return redirect()->back();
