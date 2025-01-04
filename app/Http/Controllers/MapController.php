@@ -9,6 +9,7 @@ use App\Models\Rating;
 use App\Services\MapService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class MapController extends Controller
 {
@@ -73,9 +74,8 @@ class MapController extends Controller
         return view('branches.ratings', compact('branch', 'ratings', 'can_rating'));
     }
 
-    public function ratingStore(Request $r, string $name)
+    public function ratingStore(Request $r, Branch $branch)
     {
-        $branch = Branch::where('name', $name)->firstOrFail();
         $r->validate([
             'comentario' => 'nullable|max:200',
             'estrellas' => 'required|max:5|min:1|numeric|integer'
@@ -92,9 +92,10 @@ class MapController extends Controller
 
     public function ratingDelete(Rating $rating)
     {
-        if ($rating->user_id === auth()->user()->id) {
-            $rating->delete();
-        }
+        Gate::authorize('author', $rating);
+
+        $rating->delete();
+
         return redirect()->back();
     }
 }

@@ -20,7 +20,7 @@ Route::get('/sucursales/{name}/valoraciones', [MapController::class, 'branchRati
 
 // ______ Ratings ______
 Route::middleware('auth')->group(function () {
-    Route::post('/sucursal/{name}/valoraciones', [MapController::class, 'ratingStore'])
+    Route::post('/sucursal/{branch:name}/valoraciones', [MapController::class, 'ratingStore'])
         ->name('ratings.store');
 
     Route::get('sucursales/valoraciones/{rating}', [MapController::class, 'ratingDelete'])

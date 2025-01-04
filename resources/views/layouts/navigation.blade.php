@@ -11,63 +11,60 @@
         {{-- -------- Items ------- --}}
         <div class="my-auto md:block md:w-auto">
             <ul
-                class="flex flex-col mt-4 font-medium rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+                class="flex flex-col mt-4 font-medium rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent ">
 
-                @auth
-                <div class=" md:flex md:items-center md:ms-6">
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border rounded-md border-emerald-500 hover:text-gray-700 focus:outline-none">
-                                <div>{{ Auth::user()->name }}</div>
 
-                                <div class="ms-1">
-                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
 
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
+
+                <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
+                    <button id="dropdown-default" type="button"
+                        class="dropdown-toggle btn bg-emerald-700 text-gray-100 hover:bg-gray-800" aria-haspopup="menu"
+                        aria-expanded="false" aria-label="Dropdown">
+                        @auth
+                        {{ Auth::user()->name }}
+                        @else
+                        Ingresar
+                        @endauth
+                        <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60 " role="menu"
+                        aria-orientation="vertical" aria-labelledby="dropdown-default">
+                        @auth
+                        <li>
+                            <a class="btn btn-soft btn-accent w-full" href="{{route('profile.edit')}}">
                                 {{ __('Profile') }}
-                            </x-dropdown-link>
-
-                            <x-dropdown-link :href="route('businesses.index')" target="_blank">
+                            </a>
+                        </li>
+                        <li>
+                            <a class=" btn btn-soft btn-primary w-full" href="{{route('businesses.index')}}"
+                                target="_blank">
                                 {{ __('Panel') }}
-                            </x-dropdown-link>
+                            </a>
+                        </li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
 
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                            <a class="btn btn-soft btn-error w-full" href="{{route('logout')}}" onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
+                                {{ __('Log Out') }}
+                            </a>
+                        </form>
+
+                        @else
+                        <li>
+                            <a href="{{ route('login') }}" class="btn btn-soft btn-accent">
+                                Iniciar Sesión
+                            </a>
+
+                            <a href="{{ route('register') }}" class="btn btn-soft btn-success">
+                                Registrarme
+                            </a>
+                        </li>
+
+                        @endauth
+                    </ul>
                 </div>
 
-
-                @else
-                <li>
-                    <a href="{{ route('login') }}" class="btn btn-soft btn-accent">
-                        Iniciar Sesión
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('register') }}" class="btn btn-soft btn-success">
-                        Registrarme
-                    </a>
-                </li>
-                @endauth
             </ul>
         </div>
     </div>

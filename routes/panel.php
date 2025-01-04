@@ -18,7 +18,6 @@ Route::prefix('/panel')->group(function(){
     Route::prefix('{business}')->group( function() {
         Route::resource('/sucursales', BranchController::class)
         ->names('branches');
-
     });
             
 });

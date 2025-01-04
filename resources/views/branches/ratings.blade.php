@@ -73,12 +73,12 @@
             </span>
 
 
-            @if ($rating->user_id === auth()?->user()?->id)
-            <a title="{{$rating->value}}" href="{{route('ratings.delete', $rating)}}" 
+            @can('author', $rating)
+            <a href="{{route('ratings.delete', $rating)}}" 
                 class="btn btn-error  absolute top-0 right-0 ">
                 <span class="icon-[tabler--trash]" ></span>
             </a>
-            @endif
+            @endcan
 
         </div>
         <div class="card-body">

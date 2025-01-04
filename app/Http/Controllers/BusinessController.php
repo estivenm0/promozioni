@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BusinessResource;
+use App\Models\Business;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -54,8 +55,7 @@ class BusinessController extends Controller
      */
     public function show(string $name, Request $r)
     {
-        $business = $r->user()->businesses()
-                    ->with('types')
+        $business = Business::with('types')
                     ->whereName($name)->firstOrFail();
 
         return Inertia::render('Businesses/Show', [
