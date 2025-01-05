@@ -1,8 +1,9 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { Link, router, useForm } from '@inertiajs/vue3';
 import Container from '../../Components/Common/Container.vue';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import Error from '../../Components/Common/Error.vue';
+import { fromJSON } from 'postcss';
 
 
 const props = defineProps({
@@ -11,6 +12,9 @@ const props = defineProps({
         default: ''
     },
     types: {
+        type: Array,
+    },
+    typesBusiness: {
         type: Array,
     },
     business: {
@@ -24,24 +28,21 @@ const form = useForm({
     email: props.business ? props.business.email : '',
     phone: props.business ? props.business.phone : '',
     description: props.business ? props.business.description : '',
-    types: props.business ? props.business.types : '',
+    types: props.typesBusiness ? props.typesBusiness : [],
     image: null
 })
 
-const submitForm = () => {
-    console.log(form.image);
-    
-    if (!props.business) {        
-        form.post('/panel/negocios',{
-                forceFormData: true,
-            });
+const submitForm = () => {    
+    if (props.business) {     
+        const postData = (data) => ({ ...data, _method: 'PUT' })
+         
+        form.transform(postData).post(`/panel/negocios/${props.business.name}`);
     } else {
-        form.put(`/panel/negocios/${props.business.id}`, {
-                forceFormData: true,
-            });
+        form.post('/panel/negocios',{ forceFormData: true });
     }
 }
 
+const selected = (typeId)=> props?.typesBusiness?.includes(typeId) ? true : false;
 
 </script>
 
@@ -56,10 +57,12 @@ const submitForm = () => {
                             <hr class=" mt-2" />
                         </div>
                         <div>
-                            <label class="label label-text" for="fav-movies">Selecciona el tipo de negocio:</label>
+                            <label class="label label-text" for="types">Selecciona el tipo de negocio:</label>
                             <select multiple class="select rounded-md" name="types[]" id="types" v-model="form.types">
                                 <template v-for="type in types" :key="type.id">
-                                    <option :value="type.id">{{ type.name }}</option>
+                                    <option :value="type.id" 
+                                    :selected="selected(type.id)"
+                                    >{{ type.name }}</option>
                                 </template>
                             </select>
                             <Error :message="form.errors.types" />

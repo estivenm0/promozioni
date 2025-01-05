@@ -28,17 +28,17 @@ const form = useForm({
 })
 
 const submitForm = () => {
-    console.log(form.image);
+    console.log(form.lat);
 
-    if (!props.branch) {
-        form.post('/panel/negocios', {
-            forceFormData: true,
-        });
-    } else {
-        form.put(`/panel/negocios/${props.branch.id}`, {
-            forceFormData: true,
-        });
-    }
+    // if (!props.branch) {
+    //     form.post('/panel/negocios', {
+    //         forceFormData: true,
+    //     });
+    // } else {
+    //     form.put(`/panel/negocios/${props.branch.id}`, {
+    //         forceFormData: true,
+    //     });
+    // }
 }
 
 onMounted(() => {
@@ -77,25 +77,20 @@ onMounted(() => {
                         </div>
                         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                             <div>
-                                <label class="label label-text" for="name">Nombre </label>
+                                <label class="label label-text" for="name">Nombre de la Sucursal </label>
                                 <input id="name" type="text" class="input" v-model="form.name"
                                     placeholder="Nombre del Negocio" required />
                                 <Error :message="form.errors.name" />
+
+                                <label class="label label-text" for="userBio">Dirección</label>
+                                <textarea class="textarea min-h-20 resize-none" id="dirección" 
+                                    placeholder="Ingrese la dirección de la Sucursal" 
+                                    v-model="form.address" required>
+                                </textarea>
+                                <Error :message="form.errors.address" />
                             </div>
+                            <div class="z-0 w-full p-6 text-gray-900 h-80" id="map"></div>
                         </div>
-
-
-
-                        <div class="w-full">
-                            <label class="label label-text" for="userBio">Dirección</label>
-                            <textarea class="textarea min-h-20 resize-none" id="dirección" v-model="form.address"
-                                placeholder="Ingrese la dirección de la Sucursal" required>
-                            </textarea>
-                            <Error :message="form.errors.address" />
-                        </div>
-
-                        <div class="z-0 w-full p-6 text-gray-900 md:w-1/2 h-96" id="map"></div>
-
 
                         <!-- buttons -->
                         <div class="mt-4 flex justify-between flex-wrap">

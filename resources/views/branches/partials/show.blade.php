@@ -31,8 +31,10 @@
                     </div>
 
                 </div>
-                <div class="w-full">
-                    <img src="{{$branch->business->getImageURL()}}" alt="" class="w-10/12 m-auto">
+                <div class="w-40 h-40 overflow-hidden m-auto">
+                    <img src="{{$branch->business->getImageURL()}}" 
+                     alt="{{$branch->business->name}}"
+                     class="">
                 </div>
             </div>
 

@@ -13,6 +13,7 @@ use Inertia\Inertia;
 Route::prefix('/panel')->group(function(){
     
     Route::resource('/negocios', BusinessController::class)
+    ->parameters([ 'negocios' => 'business:name' ])
     ->names('businesses');
 
     Route::prefix('{business}')->group( function() {

@@ -37,7 +37,7 @@
 
 
             </div>
-            <div class="w-5/6 m-auto lg:max-w-lg md:w-1/3 ">
+            <div class="w-5/6 m-auto lg:max-w-lg md:w-1/3 max-h-[100%]">
                 <img class="object-cover object-center rounded" alt="promoción"
                     src="{{'/storage/promotions/'. $promotion->image}}">
             </div>

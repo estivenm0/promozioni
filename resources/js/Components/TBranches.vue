@@ -20,6 +20,7 @@ const status = (status) => {
             Crear Sucursal
         </Link>
 
+        <template v-if="branches.data.length > 0" >
         <table class="table">
             <thead>
                 <tr>
@@ -49,5 +50,12 @@ const status = (status) => {
             </tbody>
         </table>
         <Pagination :links="branches.links" />
+        </template>
+        <template v-else >
+            <div class="alert alert-soft alert-primary mt-2" role="alert">
+                No hay Sucursales
+            </div>
+        </template>
+
     </div>
 </template>

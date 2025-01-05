@@ -214,6 +214,7 @@ return [
         'mobile'                   => 'móvil',
         'month'                    => 'mes',
         'name'                     => 'nombre',
+        'types'                    => 'tipos',
         'national_code'            => 'código nacional',
         'number'                   => 'número',
         'password'                 => 'contraseña',

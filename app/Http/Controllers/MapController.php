@@ -43,8 +43,8 @@ class MapController extends Controller
     public function branchPromotions(string $name)
     {
         $branch = Branch::with('business')
-            ->where('name', $name)
-            ->firstOrFail();
+                    ->whereName($name)
+                    ->firstOrFail();
         $promotions = $branch->promotions()->paginate(15);
 
         return view('branches.promotions', compact('branch', 'promotions'));
@@ -55,20 +55,21 @@ class MapController extends Controller
         $user_id = auth()?->user()?->id;
 
         $branch = Branch::with('business')
-            ->where('name', $name)
-            ->firstOrFail();
+                    ->whereName($name)
+                    ->firstOrFail();
+
         $ratings = $branch->ratings()
-            ->when($user_id, function ($q) use ($user_id) {
-                $q->orderByRaw('user_id = ? DESC', $user_id);
-            })
-            ->paginate(16);
+                    ->when($user_id, function ($q) use ($user_id) {
+                        $q->orderByRaw('user_id = ? DESC', $user_id);
+                    })
+                    ->paginate(16);
 
         $can_rating = false;
 
         if ($user_id) {
-            $can_rating = !Rating::where('user_id', $user_id)
-                ->where('branch_id', $branch->id)
-                ->exists();
+            $can_rating = !Rating::whereUser_id($user_id)
+                            ->whereBranch_id($branch->id)
+                            ->exists();
         }
 
         return view('branches.ratings', compact('branch', 'ratings', 'can_rating'));

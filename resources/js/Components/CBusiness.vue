@@ -1,11 +1,15 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { useModalStore } from "../Store/modals";
 
-defineProps(['business'])
+const modal = useModalStore()
+const props = defineProps(['business'])
+
+
 </script>
 
 <template>
-    <div class="card image-full card-compact max-w-sm mx-auto max-h-screen">
+    <div class="card image-full card-compact max-w-sm mx-auto max-h-[70vh]">
         <figure><img :src="`/storage/businesses/${business.image}`" :alt="business.name" /></figure>
         <div class="card-body">
             <button type="button" class="collapse-toggle btn btn-primary" id="basic-collapse" aria-expanded="false"
@@ -28,8 +32,10 @@ defineProps(['business'])
             <p class="text-white">{{ business.phone }}</p>
             <div class="card-actions justify-between mt-2">
                 <Link :href="`/panel/negocios/${business.name}/edit`" class="btn btn-primary">Editar</Link>
-                <button class="btn btn-error " aria-haspopup="dialog" aria-expanded="false"
-                    aria-controls="top-center-modal" data-overlay="#top-center-modal">Eliminar</button>
+                <button class="btn btn-error" aria-haspopup="dialog" aria-expanded="false" @click="
+                modal.setResource(business.name)"
+                    aria-controls="top-center-modal" data-overlay="#top-center-modal">Eliminar
+                </button>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
-import NavBar from '../Components/Common/NavBar.vue';
 import { usePage } from '@inertiajs/vue3';
+import NavBar from '@/Components/Common/NavBar.vue';
 
 onMounted(() => { window.HSStaticMethods.autoInit(); })
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Business;
 use App\Models\Rating;
 use App\Policies\MoonshineUserPolicy;
 use App\Policies\MoonshineUserRolePolicy;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         JsonResource::withoutWrapping();
         Gate::policy(Rating::class, ResourcePolicy::class);
+        Gate::policy(Business::class, ResourcePolicy::class);
         
         Gate::policy(MoonshineUser::class, MoonshineUserPolicy::class);
         Gate::policy(MoonshineUserRole::class, MoonshineUserRolePolicy::class);
