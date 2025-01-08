@@ -28,7 +28,7 @@
                     category: 0,
                     lat: 4.5981,
                     lon: -74.0758,
-                    km: 4,
+                    km: 10,
                 },
 
                 getPromotions(){
@@ -38,7 +38,8 @@
                         let newsP  = res.data.promotions.filter((item) =>
                             this.promotions.findIndex((t) => t.id === item.id) === -1
                         );
-
+                        console.log(newsP);
+                                                
                         this.promotions.push(...newsP)
 
                         this.$dispatch('toast', {

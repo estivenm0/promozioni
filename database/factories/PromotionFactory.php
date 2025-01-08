@@ -20,12 +20,13 @@ class PromotionFactory extends Factory
     public function definition(): array
     {
         $title = fake()->unique()->sentence(2);
+
         return [
             'branch_id' => Branch::factory(),
             'category_id' =>  $this->getCategory(),
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->paragraph(),
+            'description' => fake()->paragraph(10),
             'image' => 'promotion.jpg',
             'longitude' => fake()->longitude(-74.2234, -74.0137),
             'latitude' => fake()->latitude(4.5832, 4.8353),

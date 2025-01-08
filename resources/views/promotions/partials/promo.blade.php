@@ -2,17 +2,17 @@
     {{-- _____ Promotion _____ --}}
     <section class="flex w-full h-full overflow-hidden  shadow rounded-xl hover:shadow-md" x-show="promo"
         x-transition x-cloak>
-        <div class="flex flex-col w-7/12 p-3 pl-3 text-gray-100" >
+        <div class="flex flex-col w-7/12 p-3 pl-3 text-gray-100 " >
             <span class="badge badge-primary rounded-full" x-text="promo?.category?.name"></span>
 
-            <a :href=`/promociones/${promo?.slug}` target="_blank" class="mt-2 badge badge-soft badge-success" >
-                <span class="icon-[tabler--map-pin-filled]"></span>
+            <h1 class="mt-2 text-xl text-gray-200" >
                 <span x-text="promo.title" ></span>
-            </a>
-            <p class="mb-2 text-base " x-text="promo.description">
+            </h1>
+            <p class="mb-2 text-base " x-text="promo.description?.slice(0,200) + '.....'">
             </p>
             <div class="mb-2 text-xs text-primary">
-                <a class="badge badge-accent" target="_blank" :href=`/sucursales/${promo?.branch?.name}`>
+                <a class="link link-accent flex items-center gap-1 font-semibold" target="_blank" 
+                :href=`/sucursales/${promo?.branch?.name}`>
                     <span class=" icon-[tabler--building-store]"></span>
                     <span x-text="promo?.branch?.name" ></span>
                 </a>
@@ -34,30 +34,18 @@
 
         <h5 class="text-2xl font-bold tracking-tight">Instrucciones </h5>
 
-        <p class="font-normal">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                stroke="#61ae04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
+        <p class="font-normal flex items-center">
+            <span class="icon-[tabler--tag] size-10" ></span>
             Puede seleccionar una categoría para que solo le aparezcan promociones de esa categoría.
         </p>
         <hr>
-        <p class="font-normal">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                stroke="#000fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="10" r="3" />
-                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
-            </svg>
+        <p class="font-normal flex items-center">
+            <span class="icon-[tabler--map-pin-filled] size-10 text-blue-600" ></span>
             Para cambiar su ubicación, arrastre el marcador azul.
         </p>
         <hr>
-        <p class="font-normal">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                stroke="#ff0004" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="12" r="3"></circle>
-            </svg>
+        <p class="font-normal flex items-center">
+            <span class="icon-[tabler--discount] size-10 text-red-600" ></span>
             Al darle clic a los marcadores rojos, puede ver información sobre la promoción.
         </p>
     </section>

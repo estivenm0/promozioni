@@ -7,11 +7,9 @@ export const useModalStore = defineStore('useModalStore', {
     getters: {
     },
     actions: {
-        setResource(value){
-            this.resource = value;
-        },
-        setUrl(value){
-            this.url = value;
+        setResource(resource, url){
+            this.resource = resource;
+            this.url = url;
         }
     },
   })

@@ -17,15 +17,19 @@ class MapService
     public function promotions($r)  {
         $lat = $r->query('lat', 4.5981);
         $lon = $r->query('lon', -74.0758);
-        $km = $r->query('km', 500);
+        $km = $r->query('km', 10);
         $category = $r->query('category', 0);
 
-        return Promotion::with(['branch:id,name', 'category'])
-        ->when($category != 0,  function($q) use ($category){
-            return $q->where('category_id', $category);
-        })
-        ->distinct('branch_id')
-        ->geofence($lat, $lon, 0, $km)->get();
+        return Promotion::with(['branch:id,name', 'category'])                
+                ->whereHas('branch', function ($q){
+                    $q->whereStatus('aprobado');
+                })
+                ->when($category != 0,  function($q) use ($category){
+                    return $q->where('category_id', $category);
+                })
+                ->geofence($lat, $lon, 0, $km)
+                ->get();
+
     }
 
 

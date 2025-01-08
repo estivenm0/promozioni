@@ -20,9 +20,9 @@ class BusinessFactory extends Factory
         return [
             'user_id' => User::factory(),
             'name' => fake()->unique()->company(),
-            'description' => fake()->paragraph(),
+            'description' => fake()->paragraph(10),
             'image' => 'business.jpg',
-            'phone' => fake()->phoneNumber(),
+            'phone' => '3' . fake()->unique()->numerify('#########'),
             'email' => fake()->email()
         ];
     }

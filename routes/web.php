@@ -12,7 +12,6 @@ Route::get('/categories', [MapController::class, 'categories'])->name('map.categ
 
 // _____ Promotions ______
 Route::get('/promociones', [MapController::class, 'index'])->name('home');
-Route::get('/promociones/{promotion}', [MapController::class, 'promotion'])->name('promotions.show');
 
 // _____ Branches _______
 Route::get('/sucursales/{name}', [MapController::class, 'branchPromotions'])->name('branches.promotions');

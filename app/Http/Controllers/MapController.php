@@ -24,6 +24,8 @@ class MapController extends Controller
     public function promotions(Request $r)
     {
         $promos = $this->mapService->promotions($r);
+
+        info($promos);
         return ['promotions' => $promos];
     }
 

@@ -23,8 +23,8 @@ class BranchFactory extends Factory
             'status' => fake()->randomElement(['Pendiente', 'Aprobado', 'Rechazado']),
             'status_description' => fake()->sentence(),
             'address' => fake()->address(),
-            'longitude' => fake()->longitude(),
-            'latitude' => fake()->latitude(),
+            'longitude' => fake()->longitude(-74.2234, -74.0137),
+            'latitude' => fake()->latitude(4.5832, 4.8353),
 
         ];
     }

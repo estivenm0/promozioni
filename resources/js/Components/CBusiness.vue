@@ -1,10 +1,9 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { useModalStore } from "../Store/modals";
+import { useModalStore } from "@/Store/modals";
 
 const modal = useModalStore()
 const props = defineProps(['business'])
-
 
 </script>
 
@@ -31,9 +30,9 @@ const props = defineProps(['business'])
             <p class="text-white">{{ business.email }}</p>
             <p class="text-white">{{ business.phone }}</p>
             <div class="card-actions justify-between mt-2">
-                <Link :href="`/panel/negocios/${business.name}/edit`" class="btn btn-primary">Editar</Link>
-                <button class="btn btn-error" aria-haspopup="dialog" aria-expanded="false" @click="
-                modal.setResource(business.name)"
+                <Link :href="route('businesses.edit', business.name)"  class="btn btn-primary">Editar</Link>
+                <button class="btn btn-error" aria-haspopup="dialog" aria-expanded="false" 
+                @click=" modal.setResource(business.name, route('businesses.destroy', business))"
                     aria-controls="top-center-modal" data-overlay="#top-center-modal">Eliminar
                 </button>
             </div>

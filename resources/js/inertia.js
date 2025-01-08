@@ -3,7 +3,6 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { createPinia } from 'pinia';
 import { ZiggyVue } from 'ziggy-js';
 import { Ziggy } from './ziggy.js';
-
 import "flyonui/flyonui";
 import './bootstrap';
 

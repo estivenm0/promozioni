@@ -1,10 +1,12 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3';
-import Container from '../../Components/Common/Container.vue';
-import AppLayout from '../../Layouts/AppLayout.vue';
-import Error from '../../Components/Common/Error.vue';
+import Container from '@/Components/Common/Container.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
+import Error from '@/Components/Common/Error.vue';
 import { onMounted } from 'vue';
+import { inject } from 'vue';
 
+const route = inject('route');
 
 const props = defineProps({
     title: {
@@ -23,27 +25,21 @@ const props = defineProps({
 const form = useForm({
     name: props.branch ? props.branch.name : '',
     address: props.branch ? props.branch.address : '',
-    lat: props.branch ? props.branch.lat : '',
-    lon: props.branch ? props.branch.lon : '',
+    latitude: props.branch ? props.branch.latitude : '',
+    longitude: props.branch ? props.branch.longitude : '',
 })
 
 const submitForm = () => {
-    console.log(form.lat);
-
-    // if (!props.branch) {
-    //     form.post('/panel/negocios', {
-    //         forceFormData: true,
-    //     });
-    // } else {
-    //     form.put(`/panel/negocios/${props.branch.id}`, {
-    //         forceFormData: true,
-    //     });
-    // }
+    if (props.branch) {
+        form.put(route('branches.update', props.business, props.branch));
+    } else {
+        form.post(route('branches.store',  props.business) );
+    }
 }
 
 onMounted(() => {
-    let lat = 4.5981;
-    let lon = -74.0758;
+    let lat = props.branch?.latitude ? props.branch.latitude:  4.5981;
+    let lon = props.branch?.longitude ? props.branch.longitude : -74.0758;
 
     let map = L.map('map', { worldCopyJump: true, zoomAnimation: true, minZoom: 10, maxZoom: 18 })
         .setView([lat, lon], 14);
@@ -56,9 +52,9 @@ onMounted(() => {
         .bindPopup('Tú')
         .openPopup()
         .addTo(map)
-        .on('dragend', (e) => {
-            form.lat = e.target.getLatLng().lat;
-            form.lon = e.target.getLatLng().lng
+        .on('dragend', (e) => {          
+            form.latitude = e.target.getLatLng().lat;
+            form.longitude = e.target.getLatLng().lng
         });
 
 })
@@ -90,6 +86,8 @@ onMounted(() => {
                                 <Error :message="form.errors.address" />
                             </div>
                             <div class="z-0 w-full p-6 text-gray-900 h-80" id="map"></div>
+                            <Error :message="form.errors.latitude" />
+                            <Error :message="form.errors.longitude" />
                         </div>
 
                         <!-- buttons -->

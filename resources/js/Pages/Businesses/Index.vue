@@ -17,10 +17,10 @@ defineProps(['businesses'])
 
                 <template v-for="(business, index) in businesses" :key="index">
                     <Link :href="route('businesses.show', business)" :title="business.name" 
-                    class="card image-full card-compact h-20" >
+                    class="card image-full card-compact h-32" >
                         <figure><img :src="`/storage/businesses/${business.image}`"  :alt="business.name" /></figure>
                         <div class="card-body truncate">
-                            <h2 class="text-sm text-white">{{ business.name }}</h2>
+                            <h2 class="text-md text-white">{{ business.name }}</h2>
                         </div>
                     </Link>
                 </template>

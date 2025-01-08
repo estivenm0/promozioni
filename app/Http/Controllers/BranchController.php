@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
+use App\Models\Business;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BranchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+ 
 
     /**
      * Show the form for creating a new resource.
@@ -29,9 +26,19 @@ class BranchController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $r, Business $business)
     {
-        //
+        Gate::authorize('author', $business);
+        $data = $r->validate([
+            'name' => 'required|string|max:100|unique:branches,name',
+            'address' => 'required|string|max:255',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+        ]);
+
+        $business->branches()->create($data);
+        
+        return to_route('businesses.show', $business);
     }
 
     /**
@@ -45,9 +52,15 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Business $business, Branch $branch)
     {
-        //
+        Gate::authorize('author', $business);
+        
+        return Inertia::render('Branches/Form', [
+            'title' => 'Editar Sucursal',
+            'business' => $business,
+            'branch' => $branch
+        ]);
     }
 
     /**
@@ -61,8 +74,13 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Business $business, Branch $branch)
     {
-        //
+        Gate::authorize('author', $business);
+
+        $branch->delete();
+
+        to_route('businesses.show', $business);
+
     }
 }

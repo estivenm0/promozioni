@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Branch;
 use App\Models\Business;
-use App\Models\BusinessType;
 use App\Models\Promotion;
 use App\Models\Rating;
 use App\Models\Type;
@@ -32,25 +31,24 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        Business::factory(10)
+        Business::factory(20)
             ->for($user)
             ->has(
                 Branch::factory()->count(10)
                     ->afterCreating(function (Branch $branch) {
-                        Promotion::factory(20)
+                        Promotion::factory(1)
                             ->for($branch)
-                            ->create();
+                            ->create([
+                                'latitude' => $branch->latitude,
+                                'longitude' => $branch->longitude
+                            ]);
 
-                        Rating::factory(15)
+                        Rating::factory(5)
                             ->for($branch)
                             ->create();
                     })
-            )
+            )->hasAttached(Type::limit(3)->get())
             ->create();
-        
-
-
-        BusinessType::factory(50)->create();
-
     }
+
 }

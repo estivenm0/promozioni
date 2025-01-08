@@ -18,8 +18,13 @@ Route::prefix('/panel')->group(function(){
 
     Route::prefix('{business}')->group( function() {
         Route::resource('/sucursales', BranchController::class)
+        ->parameters([
+             'business' => 'business:name' ,
+             'sucursales' => 'branch:name' 
+        ])->except('index', 'show')
         ->names('branches');
-    });
+
+    })->middleware('scopeBindings');
             
 });
 

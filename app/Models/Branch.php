@@ -31,7 +31,7 @@ class Branch extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function promotions() : HasMany
+    public function promotions() : HasMany 
     {
         return $this->hasMany(Promotion::class);
     }
