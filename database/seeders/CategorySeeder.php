@@ -35,12 +35,9 @@ class CategorySeeder extends Seeder
             ['name' => "Decoración del Hogar"],
             ['name' => "Fitness"],
             ['name' => "Ropa"],
-            ['name' => "Cosméticos"],
             ['name' => "Productos Naturales"],
             ['name' => "Servicios de Belleza"],
-            ['name' => "Paquetes de Vacaciones"],
         ];
-        
 
         DB::table('categories')->insert($categories);
     }

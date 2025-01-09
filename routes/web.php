@@ -14,8 +14,8 @@ Route::get('/categories', [MapController::class, 'categories'])->name('map.categ
 Route::get('/promociones', [MapController::class, 'index'])->name('home');
 
 // _____ Branches _______
-Route::get('/sucursales/{name}', [MapController::class, 'branchPromotions'])->name('branches.promotions');
-Route::get('/sucursales/{name}/valoraciones', [MapController::class, 'branchRatings'])->name('branches.ratings');
+Route::get('/sucursales/{branch:name}', [MapController::class, 'branchPromotions'])->name('branches.promotions');
+Route::get('/sucursales/{branch:name}/valoraciones', [MapController::class, 'branchRatings'])->name('branches.ratings');
 
 // ______ Ratings ______
 Route::middleware('auth')->group(function () {

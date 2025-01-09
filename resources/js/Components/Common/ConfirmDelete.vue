@@ -7,7 +7,7 @@ const modal =  useModalStore();
 </script>
 
 <template>
-    <div id="top-center-modal" class="overlay modal overlay-open:opacity-100 modal-top-center hidden" role="dialog"
+    <div id="top-center-modal" class="overlay modal overlay-open:opacity-100 modal-top-center hidden z-50" role="dialog"
         tabindex="-1">
         <div class="modal-dialog overlay-open:opacity-100">
             <div class="modal-content">

@@ -13,30 +13,33 @@
     @csrf
         <div class="px-4 py-2 bg-teal-700 rounded-t-lg ">
             <div class="w-full ">
-                <label class="label label-text text-gray-100" for="comment">Tu Valoración</label>
-                <textarea class="textarea text-gray-100 bg-teal-800" placeholder="Comentario" id="comment"
-                    name="comentario">{{old('comentario')}}</textarea>
+                <label class="label label-text text-gray-100" for="content">Tu Valoración</label>
+                <textarea class="textarea text-gray-100 bg-teal-800" placeholder="Comentario" id="content"
+                    name="content">{{old('content')}}</textarea>
             </div>
         </div>
         <div class="flex items-center bg-teal-800 justify-between px-3 py-2 border-t border-gray-400">
             <div class="flex space-x-1 ps-0 rtl:space-x-reverse sm:ps-2">
                 <div class="mb-4">
-                    <label class="block mb-1">Estrellas</label>
+                    <label class="mb-1 flex items-center ">
+                        <span class="icon-[tabler--star-filled] text-yellow-400 " ></span>
+                        Valoración: 
+                    </label>
                     <div class="flex items-center space-x-2">
-                        <input type="radio" name="estrellas" id="rating1" value="1"
-                            class="focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="radio" name="rating" id="rating1" value="1"
+                            class="focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <label for="rating1">1</label>
-                        <input type="radio" name="estrellas" id="rating2" value="2"
-                            class="focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="radio" name="rating" id="rating2" value="2"
+                            class="focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <label for="rating2">2</label>
-                        <input type="radio" name="estrellas" id="rating3" value="3"
-                            class="focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="radio" name="rating" id="rating3" value="3"
+                            class="focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <label for="rating3">3</label>
-                        <input type="radio" name="estrellas" id="rating4" value="4"
-                            class="focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="radio" name="rating" id="rating4" value="4"
+                            class="focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <label for="rating4">4</label>
-                        <input type="radio" name="estrellas" id="rating5" value="5"
-                            class="focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="radio" name="rating" id="rating5" value="5"
+                            class="focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <label for="rating5">5</label>
                     </div>
                 </div>
@@ -47,12 +50,12 @@
 </form>
 
 
-@error('comentario')
+@error('content')
 <div class="alert  alert-error text-center" role="alert">
     {{ $message }}
 </div>
 @enderror
-@error('estrellas')
+@error('rating')
 <div class="alert alert-error text-center" role="alert">
     {{ $message }}
 </div>

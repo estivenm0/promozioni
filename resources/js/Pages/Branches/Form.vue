@@ -3,23 +3,17 @@ import { Link, useForm } from '@inertiajs/vue3';
 import Container from '@/Components/Common/Container.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Error from '@/Components/Common/Error.vue';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { inject } from 'vue';
 
 const route = inject('route');
 
 const props = defineProps({
-    title: {
-        type: String,
-        default: ''
-    },
     branch: {
         type: Object,
         default: null
     },
-    business: {
-        type: Object
-    }
+    business: { type: Object }
 })
 
 const form = useForm({
@@ -31,17 +25,23 @@ const form = useForm({
 
 const submitForm = () => {
     if (props.branch) {
-        form.put(route('branches.update', props.business, props.branch));
+        console.log(props);
+        
+        form.put(route('branches.update',{ ...props}));
     } else {
-        form.post(route('branches.store',  props.business) );
+        form.post(route('branches.store', props.business));
     }
 }
 
 onMounted(() => {
-    let lat = props.branch?.latitude ? props.branch.latitude:  4.5981;
+    let lat = props.branch?.latitude ? props.branch.latitude : 4.5981;
     let lon = props.branch?.longitude ? props.branch.longitude : -74.0758;
 
-    let map = L.map('map', { worldCopyJump: true, zoomAnimation: true, minZoom: 10, maxZoom: 18 })
+    form.latitude = lat;
+    form.longitude = lon;
+
+
+    let map = L.map('map', { worldCopyJump: true, zoomAnimation: true, minZoom: 6, maxZoom: 18 })
         .setView([lat, lon], 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -49,15 +49,15 @@ onMounted(() => {
         .addTo(map);
 
     L.marker([lat, lon], { draggable: true })
-        .bindPopup('Tú')
         .openPopup()
         .addTo(map)
-        .on('dragend', (e) => {          
+        .on('dragend', (e) => {
             form.latitude = e.target.getLatLng().lat;
             form.longitude = e.target.getLatLng().lng
         });
-
 })
+
+const title = computed(() => props.branch ? 'Editar Sucursal' : 'Crear Sucursal')
 
 </script>
 
@@ -75,19 +75,27 @@ onMounted(() => {
                             <div>
                                 <label class="label label-text" for="name">Nombre de la Sucursal </label>
                                 <input id="name" type="text" class="input" v-model="form.name"
-                                    placeholder="Nombre del Negocio" required />
+                                    placeholder="Nombre de la Sucursal" required />
                                 <Error :message="form.errors.name" />
 
                                 <label class="label label-text" for="userBio">Dirección</label>
-                                <textarea class="textarea min-h-20 resize-none" id="dirección" 
-                                    placeholder="Ingrese la dirección de la Sucursal" 
-                                    v-model="form.address" required>
+                                <textarea class="textarea min-h-20 resize-none" id="dirección"
+                                    placeholder="Ingrese la dirección de la Sucursal" v-model="form.address" required>
                                 </textarea>
                                 <Error :message="form.errors.address" />
+
+                                <div class="alert alert-soft alert-info my-3" role="alert">
+                                    Arrastra el puntero azul hasta la ubicación de la sucursal.
+                                </div>
+                               
+                                <template v-if="form.errors.latitude || form.errors.longitude">
+                                    <Error message="Ubicación Incorrecta" />
+                                </template>
                             </div>
                             <div class="z-0 w-full p-6 text-gray-900 h-80" id="map"></div>
-                            <Error :message="form.errors.latitude" />
-                            <Error :message="form.errors.longitude" />
+
+
+
                         </div>
 
                         <!-- buttons -->

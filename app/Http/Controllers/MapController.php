@@ -25,16 +25,12 @@ class MapController extends Controller
     {
         $promos = $this->mapService->promotions($r);
 
-        info($promos);
         return ['promotions' => $promos];
     }
 
     public function categories()
     {
-        $categories = Cache::remember('categories', '1000', function () {
-            return Category::all();
-        });
-        return $categories;
+        return Cache::remember('categories', 86400, fn() => Category::all());
     }
 
     public function promotion(Promotion $promotion)
@@ -42,37 +38,34 @@ class MapController extends Controller
         return view('promotions.show', compact('promotion'));
     }
 
-    public function branchPromotions(string $name)
+    public function branchPromotions(Branch $branch)
     {
-        $branch = Branch::with('business')
-                    ->whereName($name)
-                    ->firstOrFail();
-        $promotions = $branch->promotions()->paginate(15);
+        $branch->load('business');
+
+        $promotions = $branch->promotions()
+                        ->with('category')
+                        ->paginate(5);
 
         return view('branches.promotions', compact('branch', 'promotions'));
     }
 
-    public function branchRatings(string $name)
+    public function branchRatings(Branch $branch)
     {
         $user_id = auth()?->user()?->id;
 
-        $branch = Branch::with('business')
-                    ->whereName($name)
-                    ->firstOrFail();
+        $branch->load('business');
 
         $ratings = $branch->ratings()
+                    ->with('user:id,name')
                     ->when($user_id, function ($q) use ($user_id) {
                         $q->orderByRaw('user_id = ? DESC', $user_id);
                     })
-                    ->paginate(16);
+                    ->paginate(12);
 
-        $can_rating = false;
 
-        if ($user_id) {
-            $can_rating = !Rating::whereUser_id($user_id)
-                            ->whereBranch_id($branch->id)
-                            ->exists();
-        }
+        $can_rating = $user_id
+                        ? !Rating::where(['user_id' => $user_id, 'branch_id' => $branch->id])->exists() 
+                        : false;
 
         return view('branches.ratings', compact('branch', 'ratings', 'can_rating'));
     }
@@ -80,14 +73,14 @@ class MapController extends Controller
     public function ratingStore(Request $r, Branch $branch)
     {
         $r->validate([
-            'comentario' => 'nullable|max:200',
-            'estrellas' => 'required|max:5|min:1|numeric|integer'
+            'content' => 'nullable|max:200',
+            'rating' => 'required|max:5|min:1|numeric|integer'
         ]);
 
         $r->user()->ratings()->create([
             'branch_id' => $branch->id,
-            'content' => $r->comentario,
-            'value' => $r->estrellas,
+            'content' => $r->content,
+            'value' => $r->rating,
         ]);
 
         return redirect()->back();

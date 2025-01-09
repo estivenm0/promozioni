@@ -8,7 +8,7 @@ const props = defineProps(['business'])
 </script>
 
 <template>
-    <div class="card image-full card-compact max-w-sm mx-auto max-h-[70vh]">
+    <div class="card image-full card-compact max-w-sm mx-auto ">
         <figure><img :src="`/storage/businesses/${business.image}`" :alt="business.name" /></figure>
         <div class="card-body">
             <button type="button" class="collapse-toggle btn btn-primary" id="basic-collapse" aria-expanded="false"

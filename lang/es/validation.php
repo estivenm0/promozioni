@@ -215,6 +215,8 @@ return [
         'month'                    => 'mes',
         'name'                     => 'nombre',
         'types'                    => 'tipos',
+        'content'                  => 'comentario',
+        'rating'                   => 'valoración',
         'national_code'            => 'código nacional',
         'number'                   => 'número',
         'password'                 => 'contraseña',

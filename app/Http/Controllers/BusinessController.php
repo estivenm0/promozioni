@@ -6,6 +6,7 @@ use App\Http\Resources\BusinessResource;
 use App\Models\Business;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -17,12 +18,10 @@ class BusinessController extends Controller
      */
     public function index(Request $r)
     {
-        $businesses = $r->user()->businesses()
-                        ->select('name', 'image')
-                        ->get();
-
         return Inertia::render('Businesses/Index', [
-            'businesses' => $businesses
+            'businesses' => $r->user()->businesses()
+                                ->select('name', 'image')
+                                ->get()
         ]);
     }
 
@@ -32,8 +31,7 @@ class BusinessController extends Controller
     public function create()
     {
         return Inertia::render('Businesses/Form', [
-            'title' => 'Crear Negocio',
-            'types' => Type::get() 
+            'types' => Cache::remember('types', 86400, fn()=> Type::get()) 
         ]);
     }
 
@@ -53,7 +51,7 @@ class BusinessController extends Controller
         ]);
 
         $data['image'] = basename($r->file('image')->store('public/businesses'));
-        
+
         $business = $r->user()->businesses()->create($data);
 
         $business->types()->attach($data['types']);
@@ -64,16 +62,20 @@ class BusinessController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $name )
+    public function show(string $name)
     {
         $business = Business::with('types')
-                    ->whereName($name)->firstOrFail();
+            ->whereName($name)->firstOrFail();
 
         Gate::authorize('author', $business);
 
         return Inertia::render('Businesses/Show', [
             'business' => $business,
-            'branches' => $business->branches()->paginate(5),
+            'branches' => $business->branches()->with([
+                'promotions' => function ($q) {
+                    return $q->with('category');
+                }
+            ])->paginate(5),
         ]);
     }
 
@@ -84,12 +86,10 @@ class BusinessController extends Controller
     {
         Gate::authorize('author', $business);
 
-        $typesB = $business->types()->pluck('id');
+        $business->typesB = $business->types()->pluck('id');
 
         return Inertia::render('Businesses/Form', [
-            'title' => 'Editar Negocio',
-            'types' => Type::get(),
-            'typesBusiness' => $typesB,
+            'types' => Cache::remember('types', 86400, fn()=> Type::get()),
             'business' => $business
         ]);
     }
@@ -102,16 +102,16 @@ class BusinessController extends Controller
         Gate::authorize('author', $business);
 
         $data = $r->validate([
-            'name' => 'required|string|max:100|unique:businesses,name,'.$business->id,
+            'name' => 'required|string|max:100|unique:businesses,name,' . $business->id,
             'description' => 'required|string',
-            'image' => 'sometimes',
+            'image' => 'nullable|image|mimes:jpg,svg,png,webp|max:5120',
             'email' => 'required|string|email|max:255',
             'phone' => 'required|string|max:255',
             'types' => 'required|array|min:1|max:4',
             'types.*' => 'exists:types,id|integer|distinct|required'
         ]);
 
-        if($r->hasFile('image')){
+        if ($r->hasFile('image')) {
             Storage::disk('businesses')->delete($business->image ?? '');
 
             $data['image'] = basename($r->file('image')->store('public/businesses'));
@@ -133,7 +133,7 @@ class BusinessController extends Controller
     {
         Gate::authorize('author', $business);
 
-        if($business->image){
+        if ($business->image) {
             Storage::disk('businesses')->delete($business->image);
         }
 

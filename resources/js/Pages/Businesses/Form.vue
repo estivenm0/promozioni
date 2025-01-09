@@ -3,48 +3,41 @@ import { Link, router, useForm } from '@inertiajs/vue3';
 import Container from '@/Components/Common/Container.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Error from '@/Components/Common/Error.vue';
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 
 const route = inject('route');
 
 const props = defineProps({
-    title: {
-        type: String,
-        default: ''
-    },
-    types: {
-        type: Array,
-    },
-    typesBusiness: {
-        type: Array,
-    },
+    types: { type: Array },
+
     business: {
         type: Object,
         default: null
     }
 })
 
+const title = computed(() => props.business ? 'Editar Negocio' : 'Crear Negocio')
 
 const form = useForm({
     name: props.business ? props.business.name : '',
     email: props.business ? props.business.email : '',
     phone: props.business ? props.business.phone : '',
     description: props.business ? props.business.description : '',
-    types: props.typesBusiness ? props.typesBusiness : [],
+    types: props.business.typesB ? props.business.typesB : [],
     image: null
 })
 
-const submitForm = () => {    
-    if (props.business) {     
+const submitForm = () => {
+    if (props.business) {
         const postData = (data) => ({ ...data, _method: 'PUT' })
-         
+
         form.transform(postData).post(route('businesses.update', props.business.name));
     } else {
-        form.post(route('businesses.store'),{ forceFormData: true });
+        form.post(route('businesses.store'), { forceFormData: true });
     }
 }
 
-const selected = (typeId)=> props?.typesBusiness?.includes(typeId) ? true : false;
+const selected = (typeId) => props?.business.typesB?.includes(typeId) ? true : false;
 
 </script>
 
@@ -62,9 +55,7 @@ const selected = (typeId)=> props?.typesBusiness?.includes(typeId) ? true : fals
                             <label class="label label-text" for="types">Selecciona el tipo de negocio:</label>
                             <select multiple class="select rounded-md" name="types[]" id="types" v-model="form.types">
                                 <template v-for="type in types" :key="type.id">
-                                    <option :value="type.id" 
-                                    :selected="selected(type.id)"
-                                    >{{ type.name }}</option>
+                                    <option :value="type.id" :selected="selected(type.id)">{{ type.name }}</option>
                                 </template>
                             </select>
                             <Error :message="form.errors.types" />
@@ -78,8 +69,8 @@ const selected = (typeId)=> props?.typesBusiness?.includes(typeId) ? true : fals
                             </div>
                             <div>
                                 <label class="label label-text" for="image">Imagen</label>
-                                <input id="image" type="file" class="input" 
-                                @input="form.image = $event.target.files[0]" />
+                                <input id="image" type="file" class="input"
+                                    @input="form.image = $event.target.files[0]" />
                                 <Error :message="form.errors.image" />
                             </div>
                         </div>
@@ -100,15 +91,16 @@ const selected = (typeId)=> props?.typesBusiness?.includes(typeId) ? true : fals
 
                         <div class="w-full">
                             <label class="label label-text" for="description">Descripción</label>
-                            <textarea class="textarea min-h-20 resize-none" id="description" 
-                                placeholder="Ingrese una descripción de su negocio"
-                                v-model="form.description" required>
+                            <textarea class="textarea min-h-20 resize-none" id="description"
+                                placeholder="Ingrese una descripción de su negocio" v-model="form.description" required>
                             </textarea>
                             <Error :message="form.errors.description" />
                         </div>
 
                         <div class="mt-4 flex justify-between flex-wrap">
-                            <button type="button" @click="submitForm" class="btn btn-primary px-10">Listo</button>
+                            <button type="button" @click="submitForm" class="btn btn-primary px-10">
+                                {{ title }}
+                            </button>
                             <Link :href="route('businesses.index')" class="btn btn-error px-10">Cancelar</Link>
                         </div>
                     </form>
