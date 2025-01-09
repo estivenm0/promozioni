@@ -24,8 +24,10 @@ const modal =  useModalStore();
                 <div class="modal-footer justify-between">
                     <button type="button" class="btn btn-soft btn-error"
                         data-overlay="#top-center-modal">Cancelar</button>
-                    <Link :href="modal.url" as="button" method="DELETE" class="btn btn-soft btn-primary"
-                    data-overlay="#top-center-modal">
+                    <Link :href="modal.url" as="button" method="DELETE" 
+                    :preserveScroll="true"
+                    
+                    class="btn btn-soft btn-primary" data-overlay="#top-center-modal">
                         Eliminar
                 </Link>
                 </div>

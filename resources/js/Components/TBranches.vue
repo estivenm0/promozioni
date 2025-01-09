@@ -18,7 +18,10 @@ const status = (status) => {
     return statusIcons[status] || '<span class="text-gray-500">❓</span>';
 }
 
-const Branch = ref({})
+
+const branch = ref({})
+
+const form = ref(false);
 </script>
 
 <template>
@@ -28,43 +31,48 @@ const Branch = ref({})
         <div class="drawer-header">
             <h3 class="drawer-title"> Promocion</h3>
             <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
-                data-overlay="#overlay-end-example">
+                data-overlay="#overlay-end-example" @click="form = false" >
                 <span class="icon-[tabler--x] size-5"></span>
             </button>
         </div>
         <div class="drawer-body">
-            <template v-if="Branch?.promotions?.length > 0" v-for="promotion in Branch.promotions">
+            <template v-if="branch?.promotion && !form" >
                 <div class="card sm:max-w-sm bg-base-200">
                     <figure>
-                        <img :src="`/storage/promotions/${promotion.image}`" :alt="promotion.title" />
+                        <img :src="`/storage/promotions/${branch.promotion.image}`" :alt="branch.promotion.title" />
                     </figure>
                     <div class="card-body">
                         <h5 class="card-title mb-2.5">
-                            {{ promotion.title }}
+                            {{ branch.promotion.title }}
                         </h5>
-                        <span class="badge badge-accent">{{ promotion.category.name }}</span>
+                        <span class="badge badge-accent">{{ branch.promotion.category.name }}</span>
                         <p class="mb-4">
-                            {{ promotion.description }}
+                            {{ branch.promotion.description }}
                         </p>
                         <p>
-                            Empieza: {{ promotion.start_date }}
+                            Empieza: {{ branch.promotion.start_date }}
                         </p>
                         <p>
-                            termina: {{ promotion.end_date }}
+                            termina: {{ branch.promotion.end_date }}
                         </p>
-                        <Link @click="Branch.promotions = []"
-                            :href="route('promotions.destroy', { business, branch: Branch, promotion })"
+                        
+                        <button @click="form = true" class="btn btn-info btn-block">
+                            Editar
+                        </button>
+                        <Link @click="form = true, branch.promotion = null"
+                            :href="route('promotions.destroy', { business, branch, promotion: branch.promotion })"
                             data-overlay="#overlay-end-example" method="DELETE" as="button"
                             class="btn btn-error btn-block">Eliminar</Link>
                     </div>
                 </div>
             </template>
             <template v-else>
-                <FormPromo/>
+                <FormPromo :business :branch />
             </template>
         </div>
         <div class="drawer-footer">
-            <button type="button" class="btn btn-soft btn-primary" data-overlay="#overlay-end-example">Cerrar</button>
+            <button type="button" class="btn btn-soft btn-primary" 
+            data-overlay="#overlay-end-example" @click="form = false"  >Cerrar</button>
         </div>
     </div>
 
@@ -88,22 +96,22 @@ const Branch = ref({})
                 </thead>
                 <tbody>
 
-                    <tr class="hover" v-for="branch in branches.data" :key="branch.id">
-                        <td class="text-nowrap">{{ branch.name }}</td>
-                        <td class="text-center" v-html="status(branch.status)" :title="branch.status">
+                    <tr class="hover" v-for="b in branches.data" :key="b.id">
+                        <td class="text-nowrap">{{ b.name }}</td>
+                        <td class="text-center" v-html="status(b.status)" :title="b.status">
                         </td>
                         <td class="text-wrap">
-                            {{ branch.address }}
+                            {{ b.address }}
                         </td>
                         <td>
                             <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
-                                <button :id="branch.id" type="button" class="dropdown-toggle btn btn-square btn-primary"
-                                    :aria-haspopup="branch.id" aria-expanded="false" aria-label="Dropdown">
+                                <button :id="b.id" type="button" class="dropdown-toggle btn btn-square btn-primary"
+                                    :aria-haspopup="b.id" aria-expanded="false" aria-label="Dropdown">
                                     <span class="icon-[tabler--dots-vertical] size-6"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-30 bg-base-200"
-                                    :role="branch.id" aria-orientation="vertical" :aria-labelledby="branch.id">
-                                    <Link :href="route('branches.edit', { business, branch })" title="Editar"
+                                    :role="b.id" aria-orientation="vertical" :aria-labelledby="b.id">
+                                    <Link :href="route('branches.edit', { business, branch: b })" title="Editar"
                                         class="btn btn-circle btn-text btn-sm" aria-label="Action button"
                                         aria-haspopup="FBranch" aria-expanded="false" aria-controls="FBranch"
                                         data-overlay="#FBranch"><span class="icon-[tabler--pencil] size-5"></span>
@@ -111,14 +119,14 @@ const Branch = ref({})
                                     <button class="btn btn-circle btn-text btn-sm" aria-haspopup="dialog"
                                         aria-expanded="false" aria-controls="top-center-modal"
                                         data-overlay="#top-center-modal" title="Eliminar"
-                                        @click="modal.setResource(branch.name, route('branches.destroy', { business, branch }))">
+                                        @click="modal.setResource(b.name, route('branches.destroy', { business, branch: b }))">
                                         <span class="icon-[tabler--trash] size-5"></span>
                                     </button>
 
-                                    <button v-if="branch.status === 'aprobado'" class="btn btn-circle btn-text btn-sm"
+                                    <button v-if="b.status === 'aprobado'" class="btn btn-circle btn-text btn-sm"
                                         title="Promociones" aria-haspopup="dialog" aria-expanded="false"
                                         aria-controls="overlay-end-example" data-overlay="#overlay-end-example"
-                                        @click="Branch = branch">
+                                        @click="branch = b">
                                         <span class="icon-[tabler--discount] size-5"></span>
                                     </button>
                                 </ul>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\BusinessResource;
 use App\Models\Business;
+use App\Models\Category;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -62,20 +63,18 @@ class BusinessController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $name)
+    public function show( Business $business)
     {
-        $business = Business::with('types')
-            ->whereName($name)->firstOrFail();
-
         Gate::authorize('author', $business);
+
+        $business->load('types');
 
         return Inertia::render('Businesses/Show', [
             'business' => $business,
             'branches' => $business->branches()->with([
-                'promotions' => function ($q) {
-                    return $q->with('category');
-                }
+                'promotion' => fn ($q) => $q->with('category')
             ])->paginate(5),
+            'categories' => fn()=> Category::get(),
         ]);
     }
 

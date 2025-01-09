@@ -18,6 +18,7 @@ class Promotion extends Model
         'category_id',       
         'title',       
         'description',       
+        'slug',       
         'image',       
         'longitude',       
         'latitude',       
