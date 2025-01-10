@@ -27,6 +27,10 @@ Route::prefix('/panel')->group(function(){
 
         Route::post('/{branch:name}', [PromotionController::class, 'store'])
         ->name('promotions.store');
+
+        Route::put('/{branch:name}/{promotion:slug}', [PromotionController::class, 'update'])
+        ->name('promotions.update');
+
         Route::delete('/{branch:name}/{promotion:slug}', [PromotionController::class, 'destroy'])
         ->name('promotions.destroy');
     })->middleware('scopeBindings');

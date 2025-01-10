@@ -13,6 +13,8 @@ const props = defineProps({
     business: { type: Object },
 })
 
+const emit = defineEmits(['formS'])
+
 const { promotion } = props.branch;
  
 const form = useForm({
@@ -26,18 +28,28 @@ const form = useForm({
 
 
 const submitForm = () => {
-    if (props.business) {
-        // const postData = (data) => ({ ...data, _method: 'PUT' })
+    if (props.branch.promotion) {
 
-        form.post(route('promotions.store', { ...props }), {
+        const postData = (data) => ({ ...data,  _method: 'PUT'})
+
+        form.transform(postData).post(route('promotions.update', 
+        { ...props, promotion: props.branch.promotion }),{
             preserveScroll: true,
-            forceFormData: true,
-            onSuccess: () => {
-                HSOverlay.close('#overlay-end-example')
+            onSuccess: () => { 
+                // HSOverlay.close('#overlay-end-example')   
+                emit('formS', false)
             }
         });
+
     } else {
-        // form.post(route('businesses.store'), { });
+        form.post(route('promotions.store', {...props}), { 
+            preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () =>  {
+                // HSOverlay.close('#overlay-end-example')   
+                emit('formS', false)
+            }
+        });
     }
 }
 

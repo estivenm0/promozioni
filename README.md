@@ -69,7 +69,7 @@ Este documento tiene como objetivo detallar los requisitos, la arquitectura y el
   - Gestión de informes.
 
 ### 2.2 Características del Usuario
-"Promozioni" está diseñada para tres tipos de usuarios: el usuario cliente, el usuario negocio y el administrador. el usuario cliente y negocio son el mismo en este caso se diferencia en el uso que le dan a la app ya sea de meramente consumo o promocionar negocio aunque puede hacer ambas:
+"Promozioni" está diseñada para tres tipos de usuarios: clientes, negocios y administradores. En este caso, los usuarios cliente y negocio comparten el mismo perfil, diferenciándose únicamente en cómo utilizan la plataforma: ya sea para consumir promociones, promocionar su propio negocio o incluso realizar ambas actividades.
 
 **Usuarios Clientes**:
   - Personas que buscan promociones y ofertas en negocios cercanos.
@@ -88,8 +88,6 @@ Este documento tiene como objetivo detallar los requisitos, la arquitectura y el
 - La aplicación estará inicialmente disponible solo en web.
 - Los negocios deben estar localizados dentro de un área geográfica específica (Colombia).
 - Se requiere una conexión a Internet para utilizar todas las funcionalidades de la aplicación.
-
-
 
 ## 3. Requisitos del Sistema
 
@@ -123,7 +121,7 @@ Este documento tiene como objetivo detallar los requisitos, la arquitectura y el
 
 **Requisitos**:
 - Los usuarios deben poder ver las promociones cercanas en un mapa.
-- Los usuarios deben poder buscar promociones por nombre, categoría o ubicación.
+- Los usuarios deben poder filtrar promociones categoría.
 
 
 #### 3.1.5 Valoración de Sucursales
@@ -150,9 +148,7 @@ Este documento tiene como objetivo detallar los requisitos, la arquitectura y el
 - El sistema debe poder manejar hasta 1000 usuarios concurrentes sin degradación significativa del rendimiento.
 
 #### 3.2.2 Seguridad
-- Los datos de los usuarios deben ser almacenados de manera segura, siguiendo las mejores prácticas de la industria.
-- La aplicación debe utilizar HTTPS para todas las comunicaciones.
-- La autenticación debe ser manejada con tokens JWT.
+- Los datos de los usuarios deben ser almacenados de manera segura, siguiendo las mejores prácticas.
 
 #### 3.2.3 Usabilidad
 - La interfaz de usuario debe ser intuitiva y fácil de usar.
@@ -169,7 +165,7 @@ Este documento tiene como objetivo detallar los requisitos, la arquitectura y el
 La arquitectura del sistema está basada en un enfoque de aplicación web monolítica utilizando Laravel Blade e Inertia Vue, con MySQL como sistema de gestión de bases de datos y Leaflet para la visualización de mapas.
 
 ### 4.2 Descripción de Componentes
-- **Frontend**: la parte usuario cliente desarrollado con Blade y alpinejs y de usuario negocio con inertia vue ambos usando flowbite para la interfaz.
+- **Frontend**: la parte usuario cliente desarrollado con Blade y alpinejs y de usuario negocio con inertia vue ambos usando FlyonUI para la interfaz.
 - **Backend**: Desarrollado con Laravel.
 - **Base de Datos**: MySQL para almacenamiento persistente de datos.
 - **Mapas**: Leaflet para la visualización y gestión de mapas interactivos.
@@ -194,9 +190,9 @@ La arquitectura del sistema está basada en un enfoque de aplicación web monol�
 - **user_id (FK)**: Identificador del propietario del negocio. (INT)
 - **name**: Nombre del negocio. (VARCHAR(100), Unique)
 - **description**: Descripción del negocio. (TEXT)
-- **image**:  Imagen del negocio. (VARCHAR(255), Nullable)
-- **email**: Correo del negocio (VARCHAR(255), Nullable)
-- **phone**: Teléfono del negocio (VARCHAR(255), Nullable)
+- **image**:  Imagen del negocio. (VARCHAR(255))
+- **email**: Correo del negocio (VARCHAR(255))
+- **phone**: Teléfono del negocio (VARCHAR(255))
 
 #### Sucursales
 - **id (PK)**: Identificador único del negocio. (INT)

@@ -2,12 +2,13 @@
 import { Link } from '@inertiajs/vue3';
 import Pagination from '@/Components/Common/Pagination.vue';
 import { useModalStore } from "@/Store/modals";
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import FormPromo from './FormPromo.vue';
 
 const modal = useModalStore()
 
-defineProps(['business', 'branches'])
+const props = defineProps(['business', 'branches'])
+
 
 const status = (status) => {
     const statusIcons = {
@@ -18,10 +19,16 @@ const status = (status) => {
     return statusIcons[status] || '<span class="text-gray-500">❓</span>';
 }
 
+// const branches = computed(()=> props.branches)
+
 
 const branch = ref({})
 
 const form = ref(false);
+
+function formS(value) {
+    form.value = value
+        }
 </script>
 
 <template>
@@ -67,7 +74,7 @@ const form = ref(false);
                 </div>
             </template>
             <template v-else>
-                <FormPromo :business :branch />
+                <FormPromo :business :branch @formS="formS" />
             </template>
         </div>
         <div class="drawer-footer">

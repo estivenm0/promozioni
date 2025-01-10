@@ -48,39 +48,38 @@ class PromotionController extends Controller
         return to_route('businesses.show', $business);
     }
 
-    // public function update(Request $r, Business $business, Branch $branch, Promotion $promotion) 
-    // {
-    //     Gate::authorize('author', $business);
+    public function update(Request $r, Business $business, Branch $branch, Promotion $promotion) 
+    {
+        Gate::authorize('author', $business);
 
-    //     if($branch->promotions()->count() > 0){
-    //         return abort(401);
-    //     }
+        if($branch->status != 'aprobado'){
+            return abort(401);
+        }
 
-    //     $data = $r->validate([
-    //         'category' => 'required|integer|exists:categories,id',
-    //         'title' => 'required|string|max:50',
-    //         'image' => 'nullable|image|mimes:jpg,svg,png,webp|max:5120',
-    //         'description' => 'required|max:500|string',
-    //         'start_date' => 'required|date|before_or_equal:end_date',
-    //         'end_date' => 'required|date|after_or_equal:start_date',
-    //     ]);
+        $data = $r->validate([
+            'category' => 'required|integer|exists:categories,id',
+            'title' => 'required|string|max:50',
+            'image' => 'nullable|image|mimes:jpg,svg,png,webp|max:5120',
+            'description' => 'required|max:500|string',
+            'start_date' => 'required|date|before_or_equal:end_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
 
-    //     $data['image'] = basename($r->file('image')->store('public/promotions'));
+        if($r->hasFile('image')){
+            Storage::disk('promotions')->delete($promotion->image);
+
+            $data['image'] = basename($r->file('image')->store('public/promotions'));
+        }
+
+        $data['image'] = $data['image'] ?? $promotion->image;
+
+        $data['category_id'] = $data['category'];
 
 
-    //     $data['slug'] = Str::slug($data['title']) . now();
-
-    //     $data['category_id'] = $data['category'];
-
-    //     $data['longitude'] = $branch->longitude;
-
-    //     $data['latitude'] = $branch->latitude;
-
-
-    //     $branch->promotions()->create($data);
+        $promotion->update($data);
         
-    //     return to_route('businesses.show', $business);
-    // }
+        return to_route('businesses.show', $business);
+    }
 
 
 
