@@ -5,39 +5,48 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Malhal\Geographical\Geographical;
 
 class Promotion extends Model
 {
-    use HasFactory, Geographical;
+    use HasFactory;
 
-    protected static $kilometers = true;
+    protected $with = ['category'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'branch_id',       
-        'category_id',       
-        'title',       
-        'description',       
-        'slug',       
-        'image',       
-        'longitude',       
-        'latitude',       
-        'start_date',       
-        'end_date',       
+        'business_id',
+        'category_id',
+        'title',
+        'slug',
+        'description',
+        'image',
+        'start_date',
+        'end_date',
     ];
 
-    public function getRouteKeyName(): string
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'business_id' => 'integer',
+        'category_id' => 'integer',
+        // 'start_date' => 'date',
+        // 'end_date' => 'date',
+    ];
+
+    public function business(): BelongsTo
     {
-    return 'slug';
+        return $this->belongsTo(Business::class);
     }
 
-
-    public function branch() : BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
-    }
-
-    public function category() : BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -45,10 +54,7 @@ class Promotion extends Model
     public function getImageURL()
     {
         if ($this->image) {
-            return url('/storage/promotions/' . $this->image);
+            return url('/storage/promotions/'.$this->image);
         }
     }
-
-
-
 }

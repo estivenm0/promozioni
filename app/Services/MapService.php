@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Promotion;
+use App\Models\Business;
 
 class MapService
 {
@@ -14,23 +14,22 @@ class MapService
         //
     }
 
-    public function promotions($r)  {
-        $lat = $r->query('lat', 4.5981);
-        $lon = $r->query('lon', -74.0758);
-        $km = $r->query('km', 10);
-        $category = $r->query('category', 0);
+    public function promotions($rq)
+    {
+        $lat = $rq->query('lat', 4.5981);
+        $lon = $rq->query('lon', -74.0758);
+        $km = $rq->query('km', 10);
+        $category = $rq->query('category', 0);
 
-        return Promotion::with(['branch:id,name', 'category'])                
-                ->whereHas('branch', function ($q){
-                    $q->whereStatus('aprobado');
-                })
-                ->when($category != 0,  function($q) use ($category){
-                    return $q->where('category_id', $category);
-                })
-                ->geofence($lat, $lon, 0, $km)
-                ->get();
+        return Business::with('promotion')
+                // ->whereStatus('aprobado')
+            ->whereHas('promotion', function ($q) use ($category) {
+                if ($category != 0) {
+                    $q->whereCategoryId($category);
+                }
+            })
+            ->geofence($lat, $lon, 0, $km)
+            ->get('name');
 
     }
-
-
 }

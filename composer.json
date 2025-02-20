@@ -1,4 +1,5 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
@@ -6,24 +7,27 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "inertiajs/inertia-laravel": "2.0",
-        "laravel/framework": "^11.9",
+        "inertiajs/inertia-laravel": "^2.0",
+        "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "malhal/laravel-geographical": "^1.0",
-        "moonshine/moonshine": "^2.18",
-        "tightenco/ziggy": "^2.4"
+        "moonshine/moonshine": "^3.4",
+        "sweet1s/moonshine-roles-permissions": "^3.0",
+        "tightenco/ziggy": "^2.5"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
+        "jasonmccreary/laravel-test-assertions": "^2.6",
         "laravel-lang/common": "^6.4",
-        "laravel/breeze": "^2.1",
+        "laravel-shift/blueprint": "^2.11",
+        "laravel/breeze": "^2.3",
+        "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.0",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0"
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-laravel": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -52,6 +56,10 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ]
     },
     "extra": {

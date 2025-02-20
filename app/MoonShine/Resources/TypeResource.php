@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Type;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Laravel\Enums\Action;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
+use MoonShine\Laravel\Resources\ModelResource;
+use MoonShine\Support\Attributes\Icon;
+use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Text;
 
-use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
-use MoonShine\Fields\Text;
-
+#[Icon('s.clipboard')]
 /**
  * @extends ModelResource<Type>
  */
@@ -21,58 +24,69 @@ class TypeResource extends ModelResource
 {
     protected string $model = Type::class;
 
-    protected string $title = 'Tipos';
+    protected string $title = 'Tipos de Negocios';
+
+    protected string $column = 'name';
 
     protected bool $createInModal = true;
 
     protected bool $editInModal = true;
 
-    protected string $column = 'name';
+    protected function activeActions(): ListOf
+    {
+        return parent::activeActions()
+            ->except(Action::VIEW, Action::MASS_DELETE);
+    }
 
+    public function search(): array
+    {
+        return ['id', 'name'];
+    }
 
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
-    public function fields(): array
+    private function fields(): array
     {
         return [
-            Block::make([
-                ID::make()->sortable(),
-                Text::make('Nombre', 'name')
-                ->showOnExport()
-            ]),
+            ID::make()->sortable(),
+            Text::make('Nombre', 'name')
+                ->required(),
         ];
     }
 
-
-    public function redirectAfterSave(): string
+    /**
+     * @return list<FieldContract>
+     */
+    protected function indexFields(): iterable
     {
-        return $this->url();
+        return [
+            ...$this->fields(),
+            BelongsToMany::make('Negocios', 'businesses', resource: BusinessResource::class)
+                ->relatedLink(),
+
+        ];
     }
-
-
-    public function getActiveActions(): array
-    {
-        return ['create','update', 'delete'];
-    }
-
 
     /**
-     * @param Type $item
-     *
+     * @return list<ComponentContract|FieldContract>
+     */
+    protected function formFields(): iterable
+    {
+        return [
+            Box::make($this->fields()),
+        ];
+    }
+
+    /**
+     * @param  Type  $item
      * @return array<string, string[]|string>
+     *
      * @see https://laravel.com/docs/validation#available-validation-rules
      */
-    public function rules(Model $item): array
+    protected function rules(mixed $item): array
     {
-        if(moonshineRequest()->method() === 'PUT'){
-            return [
-                'name' => 'required|string|max:50|unique:types,name,'.$item->id    
-            ];
-        }
-        
         return [
-            'name' => 'required|string|max:50|unique:types,name'
+            'name' => moonshineRequest()->isMethod('POST') ?
+                    'required|string|max:50|unique:types,name' :
+                    'required|string|max:50|unique:types,name,'.$item->id,
         ];
     }
 }

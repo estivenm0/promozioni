@@ -2,25 +2,25 @@
 
 namespace Database\Factories;
 
+use App\Models\Type;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Type>
- */
 class TypeFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * The name of the factory's corresponding model.
      *
-     * @return array<string, mixed>
+     * @var string
+     */
+    protected $model = Type::class;
+
+    /**
+     * Define the model's default state.
      */
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->word()
+            'name' => fake()->unique()->word(),
         ];
     }
-
-    
-    
 }

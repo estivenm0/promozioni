@@ -1,31 +1,45 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" >
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-        <title>{{ config('app.name', 'Promozioni') }}</title>
-    
-        <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon">
-        @isset($head)
-            {{ $head }}
-        @endisset
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <style>
-        [x-cloak] { display: none !important; }
-    </style>
-    <body class="font-sans antialiased bg-emerald-700 backdrop-filter min-h-screen">
-        
-            @include('layouts.navigation')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-            <!-- Page Content -->
-            <main class="pt-20">
-                {{ $slot }}
-            </main>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-            <x-common.toast/>
-    </body>
+    <link rel="shortcut icon" href="{{ asset('icon.svg') }}" type="image/x-icon">
+
+    @isset($head)
+        {{ $head }}
+    @endisset
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<style>
+    [x-cloak] {
+        display: none !important;
+    }
+</style>
+
+<body class="font-sans antialiased">
+    <div class="min-h-screen ">
+        @include('layouts.navigation')
+
+        <!-- Page Content -->
+        <main>
+            {{ $slot }}
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+    <script>
+        var notyf = new Notyf({ position: { x: 'left', y: 'top' }});
+    </script>
+</body>
+
 </html>

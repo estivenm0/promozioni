@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Laravel\Enums\Action;
+use MoonShine\Laravel\Fields\Relationships\HasMany;
+use MoonShine\Laravel\Resources\ModelResource;
+use MoonShine\Support\Attributes\Icon;
+use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Text;
 
-use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
-use MoonShine\Fields\Text;
-
+#[Icon('s.tag')]
 /**
  * @extends ModelResource<Category>
  */
@@ -23,24 +26,16 @@ class CategoryResource extends ModelResource
 
     protected string $column = 'name';
 
-    protected string $title = 'Categorías';
+    protected string $title = 'Categorías de Promociones';
 
     protected bool $createInModal = true;
 
     protected bool $editInModal = true;
 
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
-    public function fields(): array
+    protected function activeActions(): ListOf
     {
-        return [
-            Block::make([
-                ID::make()->sortable(),
-                Text::make('Nombre', 'name')
-                ->showOnExport()
-            ]),
-        ];
+        return parent::activeActions()
+            ->except(Action::VIEW, Action::MASS_DELETE);
     }
 
     public function search(): array
@@ -48,35 +43,50 @@ class CategoryResource extends ModelResource
         return ['id', 'name'];
     }
 
-    public function redirectAfterSave(): string
+    private function fields(): array
     {
-        return $this->url();
-    }
+        return [
+            ID::make()->sortable(),
+            Text::make('Nombre', 'name')
+                ->required(),
 
-
-    public function getActiveActions(): array
-    {
-        return ['create','update', 'delete'];
+        ];
     }
 
     /**
-     * @param Category $item
-     *
+     * @return list<FieldContract>
+     */
+    protected function indexFields(): iterable
+    {
+        return [
+            ...$this->fields(),
+            HasMany::make('Promociones', 'promotions', resource: PromotionResource::class)
+                ->relatedLink(),
+        ];
+    }
+
+    /**
+     * @return list<ComponentContract|FieldContract>
+     */
+    protected function formFields(): iterable
+    {
+        return [
+            Box::make($this->fields()),
+        ];
+    }
+
+    /**
+     * @param  Category  $item
      * @return array<string, string[]|string>
+     *
      * @see https://laravel.com/docs/validation#available-validation-rules
      */
-    public function rules(Model $item): array
+    protected function rules(mixed $item): array
     {
-
-        if(moonshineRequest()->method() === 'PUT'){
-            return [
-                'name' => 'required|string|max:50|unique:categories,name,'.$item->id    
-            ];
-        }
-        
         return [
-            'name' => 'required|string|max:50|unique:categories,name'
+            'name' => moonshineRequest()->isMethod('POST') ?
+                    'required|string|max:50|unique:categories,name' :
+                    'required|string|max:50|unique:categories,name,'.$item->id,
         ];
-        
     }
 }

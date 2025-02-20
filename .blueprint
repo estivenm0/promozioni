@@ -1,0 +1,28 @@
+created:
+    - database/factories/BusinessFactory.php
+    - database/factories/TypeFactory.php
+    - database/factories/BusinessTypeFactory.php
+    - database/factories/CategoryFactory.php
+    - database/factories/RatingFactory.php
+    - database/factories/PromotionFactory.php
+    - database/migrations/2025_02_15_152447_create_businesses_table.php
+    - database/migrations/2025_02_15_152448_create_types_table.php
+    - database/migrations/2025_02_15_152449_create_business_types_table.php
+    - database/migrations/2025_02_15_152450_create_categories_table.php
+    - database/migrations/2025_02_15_152451_create_ratings_table.php
+    - database/migrations/2025_02_15_152452_create_promotions_table.php
+    - app/Models/Business.php
+    - app/Models/Type.php
+    - app/Models/Business_type.php
+    - app/Models/Category.php
+    - app/Models/Rating.php
+    - app/Models/Promotion.php
+models:
+    Role: { name: string, guard_name: string, role_priority: 'json nullable' }
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable', avatar: 'string nullable' }
+    Business: { user_id: id, name: 'string:100 unique', description: text, image: string, phone: 'string:100', email: 'string:100 unique', status: 'enum:aprobado,pendiente,rechazado default:pendiente', status_description: 'string nullable', longitude: double, latitude: double }
+    Type: { name: 'string:50 unique', timestamps: false }
+    Business_type: { type_id: id, business_id: id, timestamps: false }
+    Category: { name: 'string:50 unique', timestamps: false }
+    Rating: { user_id: id, business_id: id, stars: tiny, comment: string }
+    Promotion: { business_id: id, category_id: id, title: 'string:100', slug: 'string unique', description: text, image: string, start_date: date, end_date: date }

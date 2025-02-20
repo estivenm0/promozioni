@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotion;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Laravel\Enums\Action;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Resources\ModelResource;
+use MoonShine\Support\Attributes\Icon;
+use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\DateRange;
+use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Text;
 
-use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
-use MoonShine\Fields\DateRange;
-use MoonShine\Fields\Relationships\BelongsTo;
-use MoonShine\Fields\Text;
-use MoonShine\Fields\Image;
-
+#[Icon('s.bolt')]
 /**
  * @extends ModelResource<Promotion>
  */
@@ -28,51 +28,83 @@ class PromotionResource extends ModelResource
 
     protected array $with = ['category'];
 
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
-    public function fields(): array
+    protected bool $detailInModal = true;
+
+    protected bool $columnSelection = true;
+
+    protected function activeActions(): ListOf
+    {
+        return parent::activeActions()->only(Action::VIEW, Action::DELETE);
+    }
+
+    public function search(): array
+    {
+        return ['id', 'title'];
+    }
+
+    private function fields(): array
     {
         return [
-            Block::make([
-                ID::make()->sortable(),
-                Image::make('Imagen', 'image')->disk('promotions')
-                    ->hideOnIndex()
-                    ->showOnExport(),
-                BelongsTo::make('Negocio', 'branch', resource: new BranchResource())
-                    ->hideOnIndex()
-                    ->showOnExport(),
-                BelongsTo::make('Categoría', 'category', resource: new CategoryResource())
-                    ->showOnExport(),
-                Text::make('Título', 'title')
-                    ->showOnExport(),
-                Text::make('Descripción', 'description')
-                    ->hideOnIndex()
-                    ->showOnExport(),
-                DateRange::make('Inicio - Fin')
-                    ->fromTo('start_date', 'end_date')
-                    ->format('d/m/Y')
-                    ->showOnExport()
+            ID::make()->sortable(),
 
-            ]),
+            Image::make('Imagen', 'image')->disk('promotions'),
+
+            BelongsTo::make('Negocio', 'business', resource: BusinessResource::class)
+                ->badge('secondary'),
+
+            BelongsTo::make('Categoría', 'category', resource: CategoryResource::class)
+                ->badge(),
+
+            Text::make('Título', 'title'),
+
+            DateRange::make('Inicio - Fin')
+                ->fromTo('start_date', 'end_date')
+                ->format('d/m/Y'),
         ];
     }
 
-
-    public function getActiveActions(): array
+    /**
+     * @return list<FieldContract>
+     */
+    protected function indexFields(): iterable
     {
-        return ['delete', 'view'];
+        return $this->fields();
     }
 
+    /**
+     * @return list<FieldContract>
+     */
+    protected function detailFields(): iterable
+    {
+        return [
+            ...$this->fields(),
+            Text::make('Descripción', 'description'),
+        ];
+    }
 
     /**
-     * @param Promotion $item
-     *
+     * @param  Promotion  $item
      * @return array<string, string[]|string>
+     *
      * @see https://laravel.com/docs/validation#available-validation-rules
      */
-    public function rules(Model $item): array
+    protected function rules(mixed $item): array
     {
         return [];
+    }
+
+    protected function filters(): iterable
+    {
+        return [
+            BelongsTo::make('Negocio', 'business', resource: BusinessResource::class)
+                ->nullable(),
+
+            BelongsTo::make('Categoría', 'category', resource: CategoryResource::class)
+                ->nullable(),
+
+            DateRange::make('Inicio - Fin')
+                ->fromTo('start_date', 'end_date')
+                ->format('d/m/Y'),
+        ];
     }
 }

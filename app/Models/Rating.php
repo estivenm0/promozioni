@@ -10,20 +10,36 @@ class Rating extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-      'user_id',  
-      'branch_id',  
-      'value',  
-      'content',  
+        'user_id',
+        'business_id',
+        'stars',
+        'comment',
     ];
 
-    public function user() : BelongsTo
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer',
+        'business_id' => 'integer',
+    ];
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function branch() : BelongsTo
+    public function business(): BelongsTo
     {
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(Business::class);
     }
 }

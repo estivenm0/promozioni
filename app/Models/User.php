@@ -7,15 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Sweet1s\MoonshineRBAC\Traits\MoonshineRBACHasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, MoonshineRBACHasRoles, Notifiable;
+
+    const SUPER_ADMIN_ROLE_ID = 1;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -26,7 +30,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -46,15 +50,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function businesses() : HasMany
-    {
-        return $this->hasMany(Business::class);
-    }
-
-    public function ratings() : HasMany
+    public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);
     }
 
-    
+    public function businesses(): HasMany
+    {
+        return $this->hasMany(Business::class);
+    }
 }

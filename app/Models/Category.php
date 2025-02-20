@@ -10,13 +10,32 @@ class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-      'name'  
+        'name',
     ];
-    
-    public function promotions() : HasMany
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+    public function promotions(): HasMany
     {
         return $this->hasMany(Promotion::class);
     }

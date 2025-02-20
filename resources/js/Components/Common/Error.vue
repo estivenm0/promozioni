@@ -7,4 +7,3 @@ defineProps(['message'])
         {{ message }}
     </span>
 </template>
-

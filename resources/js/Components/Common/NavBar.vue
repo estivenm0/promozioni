@@ -1,39 +1,42 @@
 <script setup>
-import { Link, usePage } from '@inertiajs/vue3';
+import { usePage, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 const page = usePage();
 
-const user = computed(()=> page.props.user);
+const user = computed(() => page.props.user);
 
 </script>
 
 <template>
-    <nav
-        class="w-full mx-auto  my-2 py-1  lg:max-w-7xl  rounded-lg shadow-md bg-base-200 border-gray-700 shadow-indigo-300">
+    <nav class="md:px-10 md:pt-6">
+        <section class="navbar rounded-box shadow ">
+            <div class="w-full flex items-center justify-between md:gap-2">
+                <div class="flex items-center justify-between">
+                    <div class="navbar-start items-center justify-between max-md:w-full">
+                        <Link href="/panel"
+                            class='bg-gradient-to-r from-emerald-500 to-sky-500 bg-clip-text text-transparent font-black w-fit text-xl'>
+                            Promozioni
+                         </Link>
 
-        <div class="flex flex-wrap items-center justify-between w-full px-4  mx-auto">
+                    </div>
+                </div>
 
-            <Link :href="route('businesses.index')" class="btn btn-error btn-soft">
-            <img src="/public/iconP.png" class="block w-auto text-gray-800 fill-current h-9" />
-            </Link>
-            <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
-                <button id="dropdown-footer" type="button" class="dropdown-toggle btn btn-primary" aria-haspopup="menu"
-                    aria-expanded="false" aria-label="Dropdown">
-                    {{ user.name }}
-                    <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
-                    aria-orientation="vertical" aria-labelledby="dropdown-footer">
-                    <li>
-                        <Link :href="route('businesses.index')" class="dropdown-item">Mis Negocios</Link>
-                    </li>
-                    <li class="dropdown-footer gap-2">
-                        <button class="btn btn-error btn-soft btn-block">Salir</button>
-                    </li>
-                </ul>
+                <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
+                    <button id="dropdown-default" type="button" class="dropdown-toggle btn btn-primary"
+                        aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                        {{ user.name }}
+                        <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
+                        aria-orientation="vertical" aria-labelledby="dropdown-default">                        
+                        <Link class="btn btn-soft btn-info w-full" href="/panel">
+                            Panel
+                        </Link>                        
+                    </ul>
+                </div>
             </div>
-
-        </div>
+        </section>
     </nav>
+
 </template>

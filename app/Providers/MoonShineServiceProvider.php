@@ -4,105 +4,50 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Models\Branch;
-use App\MoonShine\Resources\BranchResource;
 use App\MoonShine\Resources\BusinessResource;
 use App\MoonShine\Resources\CategoryResource;
-use MoonShine\Providers\MoonShineApplicationServiceProvider;
-use MoonShine\MoonShine;
-use MoonShine\Menu\MenuGroup;
-use MoonShine\Menu\MenuItem;
-use App\MoonShine\Resources\MoonShineUserResource;
-use App\MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\PromotionResource;
 use App\MoonShine\Resources\RatingResource;
+use App\MoonShine\Resources\RoleResource;
 use App\MoonShine\Resources\TypeResource;
 use App\MoonShine\Resources\UserResource;
-use MoonShine\Contracts\Resources\ResourceContract;
-use MoonShine\Menu\MenuElement;
-use MoonShine\Pages\Page;
-use Closure;
-use Illuminate\Http\Request;
+use App\Services\ThemeApplier;
+use Illuminate\Support\ServiceProvider;
+use MoonShine\Contracts\ColorManager\ColorManagerContract;
+use MoonShine\Contracts\Core\DependencyInjection\ConfiguratorContract;
+use MoonShine\Contracts\Core\DependencyInjection\CoreContract;
+use MoonShine\Laravel\DependencyInjection\MoonShine;
+use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
+use Sweet1s\MoonshineRBAC\Resource\PermissionResource;
 
-class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
+class MoonShineServiceProvider extends ServiceProvider
 {
     /**
-     * @return list<ResourceContract>
+     * @param  MoonShine  $core
+     * @param  MoonShineConfigurator  $config
      */
-    protected function resources(): array
-    {
-        return [];
-    }
+    public function boot(
+        CoreContract $core,
+        ConfiguratorContract $config,
+        ColorManagerContract $colorManager
+    ): void {
+        // $config->authEnable();
 
-    /**
-     * @return list<Page>
-     */
-    protected function pages(): array
-    {
-        return [];
-    }
+        (new ThemeApplier($colorManager))->theme3();
 
-    /**
-     * @return Closure|list<MenuElement>
-     */
-    protected function menu(): array
-    {
-        return [
-            MenuGroup::make(static fn () => __('moonshine::ui.resource.system'), [
-                MenuItem::make(
-                    static fn () => __('moonshine::ui.resource.admins_title'),
-                    new MoonShineUserResource()
-                )->icon('heroicons.hand-raised'),
-                MenuItem::make(
-                    static fn () => __('moonshine::ui.resource.role_title'),
-                    new MoonShineUserRoleResource()
-                )->icon('heroicons.key'),
-            ])->icon('heroicons.identification')
-            ->canSee(function(Request $request) {
-                return $request->user('moonshine')?->id === 1;
-            }) ,
-
-            MenuItem::make('Usuarios', new UserResource())
-                ->icon('heroicons.user-group'),
-
-            MenuGroup::make('Secciones', [
-                MenuItem::make('Categorías', new CategoryResource())
-                    ->icon('heroicons.bars-4'),
-                MenuItem::make('Tipos', new TypeResource())
-                    ->icon('heroicons.bars-3-bottom-left'),
-            ])->icon('heroicons.square-3-stack-3d'),
-
-
-            MenuGroup::make('Web', [
-                MenuItem::make('Negocios', new BusinessResource())
-                    ->icon('heroicons.building-storefront'),
-
-                MenuItem::make('Sucursales', new BranchResource())
-                    ->badge(fn()=>Branch::where('status', 'pendiente')->count())
-                    ->icon('heroicons.map-pin'),
-
-                MenuItem::make('Promociones', new PromotionResource())
-                    ->icon('heroicons.face-smile'),
-
-                    MenuItem::make('Valoraciones', new RatingResource())
-                    ->icon('heroicons.star')
-            ])->icon('heroicons.cpu-chip'),
-
-
-        ];
-    }
-
-    /**
-     * @return Closure|array{css: string, colors: array, darkColors: array}
-     */
-    protected function theme(): array
-    {
-        return [
-            'colors' => [
-                'primary' => '#00688B',
-                'secondary' => '#00688B',
-
-            ], 
-        ];
+        $core
+            ->resources([
+                UserResource::class,
+                RoleResource::class,
+                PermissionResource::class,
+                CategoryResource::class,
+                TypeResource::class,
+                BusinessResource::class,
+                RatingResource::class,
+                PromotionResource::class,
+            ])
+            ->pages([
+                ...$config->getPages(),
+            ]);
     }
 }

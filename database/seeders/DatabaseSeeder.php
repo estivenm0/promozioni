@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Branch;
 use App\Models\Business;
+use App\Models\Category;
 use App\Models\Promotion;
 use App\Models\Rating;
 use App\Models\Type;
@@ -19,36 +19,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            CategorySeeder::class,
-            TypeSeeder::class,
-            MoonshineSeeder::class
-        ]);
+        // User::factory(10)->create();
 
-        $user = User::factory()->create([
-            'email' => 'example@gmail.com',
-            'password' => Hash::make('123456789'),
-        ]);
+        // $user =  User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        // ]);
 
+        Type::factory(10)->create();
 
-        Business::factory(20)
-            ->for($user)
-            ->has(
-                Branch::factory()->count(10)
-                    ->afterCreating(function (Branch $branch) {
-                        Promotion::factory(1)
-                            ->for($branch)
-                            ->create([
-                                'latitude' => $branch->latitude,
-                                'longitude' => $branch->longitude
-                            ]);
-
-                        Rating::factory(5)
-                            ->for($branch)
-                            ->create();
-                    })
-            )->hasAttached(Type::limit(3)->get())
+        Business::factory(100)
+            ->has(Rating::factory()->count(15))
+            ->afterCreating(function (Business $business) {
+                Category::factory()
+                    ->has(
+                        Promotion::factory()
+                            ->for($business)
+                            ->count(5))
+                    ->create();
+            })
+            ->hasAttached(Type::inRandomOrder()->limit(3)->get())
             ->create();
     }
-
 }

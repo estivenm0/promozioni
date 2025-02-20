@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Rating;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Laravel\Resources\ModelResource;
+use MoonShine\Support\Attributes\Icon;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Text;
 
-use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
-use MoonShine\Fields\Number;
-use MoonShine\Fields\Relationships\BelongsTo;
-use MoonShine\Fields\Text;
-
+#[Icon('s.star')]
 /**
  * @extends ModelResource<Rating>
  */
@@ -25,50 +24,57 @@ class RatingResource extends ModelResource
 
     protected string $title = 'Valoraciones';
 
-    protected array $with = ['user:id,name', 'branch:id,name'];
-
+    protected function getActiveActions(): array
+    {
+        return [];
+    }
 
     /**
-     * @return list<MoonShineComponent|Field>
+     * @return list<FieldContract>
      */
-    public function fields(): array
+    protected function indexFields(): iterable
+    {
+
+        return [
+            ID::make()->sortable(),
+
+            Number::make('Estrellas', 'stars')
+                ->sortable()
+                ->stars(),
+
+            Text::make('Comentario', 'comment'),
+        ];
+    }
+
+    /**
+     * @return list<ComponentContract|FieldContract>
+     */
+    protected function formFields(): iterable
     {
         return [
-            Block::make([
-                ID::make()->sortable(),
-                BelongsTo::make('Usuario', 'user', resource: new UserResource())
-                    ->showOnExport(),
-                BelongsTo::make('Sucursal', 'branch', resource: new BranchResource())
-                    ->showOnExport(),
-                Number::make('Valor', 'value')
-                    ->stars()
-                    ->min(1)
-                    ->max(5)
-                    ->showOnExport(),
-                Text::make('Contenido', 'content')
-                    ->showOnExport(),
-
+            Box::make([
+                ID::make(),
             ]),
         ];
     }
 
-    public function getActiveActions(): array
+    /**
+     * @return list<FieldContract>
+     */
+    protected function detailFields(): iterable
     {
-        return ['delete', 'massDelete'];
-    }
-
-    public function search(): array
-    {
-        return ['id', 'user.name', 'branch.name'];
+        return [
+            ID::make(),
+        ];
     }
 
     /**
-     * @param Rating $item
-     *
+     * @param  Rating  $item
      * @return array<string, string[]|string>
+     *
      * @see https://laravel.com/docs/validation#available-validation-rules
      */
-    public function rules(Model $item): array
+    protected function rules(mixed $item): array
     {
         return [];
     }

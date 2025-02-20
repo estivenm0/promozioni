@@ -2,142 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BusinessResource;
+use App\Http\Resources\MapResource;
 use App\Models\Business;
 use App\Models\Category;
-use App\Models\Type;
+use App\Models\Rating;
+use App\Services\MapService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class BusinessController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $r)
+    public function __construct(protected MapService $mapService) {}
+
+    public function index(Request $rq)
     {
-        return Inertia::render('Businesses/Index', [
-            'businesses' => $r->user()->businesses()
-                                ->select('name', 'image')
-                                ->get()
-        ]);
+        $businesses = MapResource::collection($this->mapService->promotions($rq));
+
+        return ['businesses' => $businesses];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function categories()
     {
-        return Inertia::render('Businesses/Form', [
-            'types' => Cache::remember('types', 86400, fn()=> Type::get()) 
-        ]);
+        return Category::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $r)
+    public function show(Business $business)
+    {
+        $business->load('promotions', 'types');
+
+        return view('businesses.promotions', compact('business'));
+    }
+
+    public function ratings(Business $business)
+    {
+        $userId = auth()?->user()?->id;
+
+        $can_rating = $userId
+            ? ! Rating::where(['user_id' => $userId, 'business_id' => $business->id])->exists()
+            : false;
+
+        $ratings = $business->ratings()
+            ->with('user:id,name')
+            ->when($userId, function ($q) use ($userId) {
+                $q->orderByRaw('user_id = ? DESC', $userId);
+            })
+            ->paginate($can_rating ? 8 : 12);
+
+        return view('businesses.ratings', compact('business', 'ratings', 'can_rating'));
+    }
+
+    public function ratingStore(Request $r, Business $business)
     {
         $data = $r->validate([
-            'name' => 'required|string|max:100|unique:businesses,name',
-            'description' => 'required|string',
-            'image' => 'required|image|mimes:jpg,svg,png,webp|max:5120',
-            'email' => 'required|string|email|max:255',
-            'phone' => 'required|string|max:255',
-            'types' => 'required|array|min:1|max:4',
-            'types.*' => 'exists:types,id|integer|distinct|required'
+            'comment' => 'nullable|max:200',
+            'stars' => 'required|max:5|min:1|numeric|integer',
         ]);
 
-        $data['image'] = basename($r->file('image')->store('public/businesses'));
-
-        $business = $r->user()->businesses()->create($data);
-
-        $business->types()->attach($data['types']);
-
-        return to_route('businesses.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show( Business $business)
-    {
-        Gate::authorize('author', $business);
-
-        $business->load('types');
-
-        return Inertia::render('Businesses/Show', [
-            'business' => $business,
-            'branches' => $business->branches()->with([
-                'promotion' => fn ($q) => $q->with('category')
-            ])->paginate(5),
-            'categories' => fn()=> Category::get(),
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Business $business)
-    {
-        Gate::authorize('author', $business);
-
-        $business->typesB = $business->types()->pluck('id');
-
-        return Inertia::render('Businesses/Form', [
-            'types' => Cache::remember('types', 86400, fn()=> Type::get()),
-            'business' => $business
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $r, Business $business)
-    {
-        Gate::authorize('author', $business);
-
-        $data = $r->validate([
-            'name' => 'required|string|max:100|unique:businesses,name,' . $business->id,
-            'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,svg,png,webp|max:5120',
-            'email' => 'required|string|email|max:255',
-            'phone' => 'required|string|max:255',
-            'types' => 'required|array|min:1|max:4',
-            'types.*' => 'exists:types,id|integer|distinct|required'
+        $r->user()->ratings()->create([
+            'business_id' => $business->id,
+            ...$data,
         ]);
 
-        if ($r->hasFile('image')) {
-            Storage::disk('businesses')->delete($business->image ?? '');
-
-            $data['image'] = basename($r->file('image')->store('public/businesses'));
-        }
-
-        $data['image'] = $data['image'] ?? $business->image;
-
-        $business->update($data);
-
-        $business->types()->sync($data['types']);
-
-        return to_route('businesses.index');
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Business $business)
+    public function ratingDelete(Rating $rating)
     {
-        Gate::authorize('author', $business);
+        Gate::authorize('author', $rating);
 
-        if ($business->image) {
-            Storage::disk('businesses')->delete($business->image);
-        }
+        $rating->delete();
 
-        $business->delete();
-
-        return to_route('businesses.index');
+        return redirect()->back();
     }
 }

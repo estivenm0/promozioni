@@ -32,7 +32,8 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => storage_path('app/private'),
+            'serve' => true,
             'throw' => false,
         ],
 
@@ -43,6 +44,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
         'promotions' => [
             'driver' => 'local',
             'root' => storage_path('app/public/promotions'),

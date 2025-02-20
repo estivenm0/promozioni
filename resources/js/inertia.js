@@ -1,14 +1,13 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
-import { createPinia } from 'pinia';
+import { createPinia } from 'pinia'
 import { ZiggyVue } from 'ziggy-js';
 import { Ziggy } from './ziggy.js';
-import "flyonui/flyonui";
-import './bootstrap';
+import "flyonui/flyonui"
 
 const appName = import.meta.env.VITE_APP_NAME || 'Promozioni';
 
-const pinia = createPinia();
+const pinia = createPinia()
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
@@ -19,8 +18,8 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)
-      .use(ZiggyVue, Ziggy)
       .use(pinia)
+      .use(ZiggyVue, Ziggy)
       .mount(el)
   },
   progress: {

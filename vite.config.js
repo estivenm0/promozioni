@@ -3,19 +3,17 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 
-
 export default defineConfig({
     plugins: [
         vue(),
         laravel({
             input: [
-                'resources/css/app.css',
+                'resources/css/app.css', 
                 'resources/js/app.js',
-                'resources/js/inertia.js',
+                'resources/js/inertia.js'
             ],
             refresh: true,
         }),
-        
     ],
     resolve: {
         alias: {
@@ -23,5 +21,4 @@ export default defineConfig({
             'ziggy-js': path.resolve('./vendor/tightenco/ziggy'),
         },
     },
-
 });

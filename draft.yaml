@@ -1,0 +1,49 @@
+# models:
+#   Business: 
+#     user_id: id
+#     name: string:100 unique
+#     description: string
+#     image: string
+#     phone: string:100
+#     email: string:100 unique
+#     status: enum:aprobado,pendiente,rechazado default:pendiente
+#     status_description: string nullable
+#     longitude: double
+#     latitude: double
+
+#   Type:
+#     name: string:50 unique
+#     timestamps: false
+  
+#   Business_type: 
+#     type_id: id 
+#     business_id: id
+#     timestamps: false
+
+#   Category: 
+#     name: string:50 unique
+#     timestamps: false
+
+#   Rating: 
+#     user_id: id
+#     business_id: id
+#     stars: tiny
+#     comment: string nullable
+
+#   Promotion:
+#     business_id: id
+#     category_id: id
+#     title: string:100
+#     slug: string unique
+#     description: string
+#     image: string
+#     start_date: date
+#     end_date: date
+
+
+
+
+
+
+# # controllers:
+#   # ...

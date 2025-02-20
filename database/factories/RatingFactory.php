@@ -2,27 +2,30 @@
 
 namespace Database\Factories;
 
-use App\Models\Branch;
+use App\Models\Business;
+use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Rating>
- */
 class RatingFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * The name of the factory's corresponding model.
      *
-     * @return array<string, mixed>
+     * @var string
+     */
+    protected $model = Rating::class;
+
+    /**
+     * Define the model's default state.
      */
     public function definition(): array
     {
         return [
-            'user_id'=> User::factory(),
-            'branch_id'=> Branch::factory(),
-            'value' => random_int(1, 5),
-            'content' => fake()->sentence(4)
+            'user_id' => User::factory(),
+            'business_id' => Business::factory(),
+            'stars' => random_int(1, 5),
+            'comment' => fake()->sentence(4),
         ];
     }
 }

@@ -1,42 +1,39 @@
-<nav class="fixed z-50  w-[calc(100%-2rem)]  -translate-x-1/2    lg:max-w-7xl left-1/2 top-2  border-gray-200 rounded-lg shadow-md bg-teal-900  shadow-indigo-300"
-    id="marketing-banner" tabindex="-1">
+<nav class="md:px-10 md:pt-6">
+    <section class="navbar rounded-box shadow ">
+        <div class="w-full flex items-center justify-between md:gap-2">
+            <div class="flex items-center justify-between">
+                <div class="navbar-start items-center justify-between max-md:w-full">
+                    <a class="link text-base-content link-neutral text-xl font-semibold no-underline" href="{{route('dashboard')}}">
+                        <x-application-logo class="text-xl" />
+                    </a>
+                </div>
+            </div>
 
-    <div class="flex flex-wrap items-center justify-between w-full px-4 py-2 mx-auto">
-        {{-- ---- Logo and Name ----- --}}
-        <a href="{{route('home')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
-        </a>
-
-
-        {{-- -------- Items ------- --}}
-        <div class="my-auto md:block md:w-auto">
-            <ul
-                class="flex flex-col mt-4 font-medium rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent ">
-
-
-
-
-                <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
-                    <button id="dropdown-default" type="button"
-                        class="dropdown-toggle btn bg-emerald-700 text-gray-100 hover:bg-gray-800" aria-haspopup="menu"
-                        aria-expanded="false" aria-label="Dropdown">
-                        @auth
+            <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
+                <button id="dropdown-default" type="button" class="dropdown-toggle btn btn-primary" aria-haspopup="menu"
+                    aria-expanded="false" aria-label="Dropdown">
+                    @auth
                         {{ Auth::user()->name }}
-                        @else
+                    @else
                         Ingresar
-                        @endauth
-                        <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60 " role="menu"
-                        aria-orientation="vertical" aria-labelledby="dropdown-default">
-                        @auth
+                    @endauth
+                    <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
+                    aria-orientation="vertical" aria-labelledby="dropdown-default">
+                    @auth
                         <li>
-                            <a class="btn btn-soft btn-accent w-full" href="{{route('profile.edit')}}">
+                            <a class="btn btn-soft btn-warning w-full" href="{{ route('dashboard') }}">
+                                Promociones
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-soft btn-accent w-full" href="{{ route('profile.edit') }}">
                                 {{ __('Profile') }}
                             </a>
                         </li>
                         <li>
-                            <a class=" btn btn-soft btn-primary w-full" href="{{route('businesses.index')}}"
+                            <a class=" btn btn-soft btn-primary w-full" href="{{ route('panel') }}"
                                 target="_blank">
                                 {{ __('Panel') }}
                             </a>
@@ -44,13 +41,13 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <a class="btn btn-soft btn-error w-full" href="{{route('logout')}}" onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
+                            <a class="btn btn-soft btn-error w-full" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                        this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </a>
                         </form>
-
-                        @else
+                    @else
                         <li>
                             <a href="{{ route('login') }}" class="btn btn-soft btn-accent">
                                 Iniciar Sesión
@@ -61,17 +58,9 @@
                             </a>
                         </li>
 
-                        @endauth
-                    </ul>
-                </div>
-
-            </ul>
+                    @endauth
+                </ul>
+            </div>
         </div>
-    </div>
-
-    <span class="badge rounded-full text-white absolute  translate-y-1/2 translate-x-1/2 bottom-0 right-1/2">
-        {{ Route::is('branches*')? 'Surcursal' : null }}
-        {{ Route::is('home') ? 'Promociones' : null }}
-        {{ Route::is('promotions*') ? 'Promoción': null }}
-    </span>
+    </section>
 </nav>
