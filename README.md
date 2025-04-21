@@ -4,7 +4,7 @@
 
 Promozioni es una app web que permite a negocios locales publicar sus ubicaciones y promociones. Los usuarios pueden buscar ofertas cercanas en tiendas, restaurantes y comercios, aprovechando descuentos y promociones actualizadas en tiempo real.
 
-### [video](https://youtu.be/GLLfL2B6zdY)
+### [video](https://youtu.be/FGabkLGRoGg)
 
 
 ## Usuario
